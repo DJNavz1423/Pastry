@@ -12,6 +12,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Merienda:wght@300..900&family=Spline+Sans:wght@300..700&display=swap" rel="stylesheet">
   <!-- Lato Font -->
   <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Merienda:wght@300..900&family=Spline+Sans:wght@300..700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Merienda:wght@300..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Spline+Sans:wght@300..700&display=swap" rel="stylesheet">
+
 
   <!-- Boxicons CSS -->
    <!-- Basic Icons -->
@@ -32,7 +34,7 @@
 <body>
   <header>
     <nav>
-      <h1 class="title">Julie's Bakery <i class='bx bx-cupcake'></i></h1>
+      <a href="#home"><h1 class="title">Julie's Bakery <i class='bx bx-cupcake'></i></h1></a>
       <ul>
         <li><a href="#about">About</a></li>
         <li><a href="#products">Products</a></li>
@@ -63,7 +65,7 @@
     <!-- About Section -->
 
     <section class="about-section" id="about">
-      <div class="custom-shape-divider-top-1768995858">
+      <div class="divider custom-shape-divider-top-1768995858">
     <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
         <path d="M985.66,92.83C906.67,72,823.78,31,743.84,14.19c-82.26-17.34-168.06-16.33-250.45.39-57.84,11.73-114,31.07-172,41.86A600.21,600.21,0,0,1,0,27.35V120H1200V95.8C1132.19,118.92,1055.71,111.31,985.66,92.83Z" class="shape-fill"></path>
     </svg>
@@ -137,8 +139,13 @@
 
 
     <!-- Products Section -->  
-
+    
     <section class="products-section" id="products">
+      <div class="divider custom-shape-divider-top-1769089356">
+    <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+        <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" class="shape-fill"></path>
+    </svg>
+</div>
       <h2 class="section-heading">Our Featured Sweets</h2>
 
       <div class="products-container">
@@ -215,12 +222,13 @@
       <div class="contact-content">
         <div class="contact-col-1">
           <figure>
-            <source srcset="images/" type="image/webp"/>
-            <img src="images/" alt="Contact Image"/>
+            <img src="./images/macaron-tree.png" alt="Contact Image"/>
           </figure>
         </div>
 
         <div class="contact-col-2">
+          <h2 class="section-heading" id="contact-heading">Order Fresh Handcrafted Sweets At Julie’s Bakery!</h2>
+          <p>Fill out the fields below, and we will contact you soon to take your order!</p>
           <form action="">
             <input type="text" name="Name" placeholder="Name" required/>
             <input type="tel" name="Phone" placeholder="Phone Number" required/>
@@ -232,8 +240,15 @@
   </main>
 
   <footer>
-    <h1 class="title">Julie's Bakery <span class="cupcake-icon"><i class='bx  bx-cupcake'></i></span></h1>
-    <nav></nav>
+    <a href="#home"><h1 class="title">Julie's Bakery <span class="cupcake-icon"><i class='bx  bx-cupcake'></i></span></h1></a>
+    <nav class="footer-nav">
+      <ul>
+        <li><i class="fa-brands fa-facebook"></i></li>
+        <li><i class="fa-brands fa-instagram"></i></li>
+        <li><i class="fa-brands fa-youtube"></i></li>
+      </ul>
+    </nav>
+    <p>&copy; 2026 Julie's Bakery. All rights reserved.</p>
   </footer>
 </body>
 
