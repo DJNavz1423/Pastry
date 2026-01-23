@@ -1,16 +1,19 @@
 dialog{
+  display: none;
+  align-items: center;
+  justify-content: center;
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   padding: 0;
-  margin: 0;
   z-index: 1000;
-  width: 60%;
-  border-radius: 14px;
-  border: 0;
+  width: 100%;
+  height: 100%;
+  cursor: default;
   border-color: var(--gray);
   overflow: hidden;
+  background: rgba(0, 0, 0, 0.5);
 }
 .modal-content{
   background-color: var(--white);
@@ -18,8 +21,11 @@ dialog{
   display: flex;
   flex-direction: row;
   align-items: center;
-  width: 100%;
+  width: 60%;
   position: relative;
+  border-radius: 14px;
+  border: 0;
+  overflow: hidden;
 }
 .modal-image{
   overflow: hidden;
@@ -59,13 +65,26 @@ dialog{
   font-weight: 600;
   margin: 0px 0px 40px 0px;
   text-align: center;
+  position: relative;
+}
+.form-container h2::after{
+  content: '';
+  width: 74%;
+  height: 4px;
+  background: var(--red);
+  position: absolute;
+  left: 13%;
+  bottom: -20px;
+  border-radius: 20px;
 }
 .form-container form{
+  margin-top: 30px;
   display: flex;
   flex-direction: column;
   align-items: center;
   width: fit-content;
   gap: 25px;
+  box-sizing: border-box;
 }.form-container form input{
   padding: 12px 26px;
   color: var(--gray);
@@ -92,7 +111,7 @@ dialog{
   width: 120%;
 }
 .form-container p{
-  font-size: 17px;
+  font-size: 16px;
   font-weight: 400;
   color: var(--gray);
 }
@@ -100,4 +119,56 @@ dialog{
   color: var(--darkRed);
   text-decoration: none;
   font-weight: 400;
+  margin-left: 5px;
+  transition: all 0.3s ease;
+  display: inline-block
+}
+.form-container p a:hover{
+  text-decoration: underline;
+  transform: translateX(5px) scale(1.1);
+  
+  transition: all 0.3s ease-in-out;
+}
+
+.remember-checkbox{
+  display: flex;
+  flex-direction: row;
+  align-items:start;
+  justify-content: space-between;
+  text-align: center;
+  align-self: flex-start;
+  margin-left: -20px;
+}
+label[for="remember_me"]{
+  font-size: 16px;
+  color: var(--gray);
+  margin-top: 1px;
+}
+.remember-checkbox input[type="checkbox"]{
+  width: 18px;
+  height: 18px;
+  margin-right: 10px;
+  accent-color: var(--darkRed);
+}
+#login-modal .modal-content .modal-image {
+  aspect-ratio: 4/4;
+}
+
+.password-wrapper{
+  position: relative;
+  width: 100%;
+  margin-left: -54px;
+}
+
+.toggle-password{
+  position: absolute;
+  top: 50%;
+  right: -35px;
+  transform: translateY(-40%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 28px;
+  color: var(--darkRed);
+  padding: 0px;
 }

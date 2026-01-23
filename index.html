@@ -40,7 +40,7 @@
         <li><a href="#about">About</a></li>
         <li><a href="#products">Products</a></li>
         <li><a href="#contact">Contact</a></li>
-        <li><button class="cta-button" id="register-button">Register</button></li>
+        <li><button class="cta-button register" id="register-button">Register</button></li>
       </ul>
 
       
@@ -55,8 +55,7 @@
         <p class="section-subheading" id="hero-subheading">Custom Pastry in Davao City</p>
 
         <div class="cta-group">
-          <button class="cta-button" id="hero-cta-button">Order Now</button>
-          <!--<a href="#" >Browse Products</a>-->
+          <a href="#contact"><button class="cta-button" id="hero-cta-button">Order Now</button></a>
         </div>
       </div>
       
@@ -193,7 +192,7 @@
         </div>
       </div>
 
-       <button class="cta-button" id="view-all-products-cta-button">View All Products</button>
+       <button class="cta-button register" id="view-all-products-cta-button">View All Products</button>
     </section>
 
 
@@ -252,7 +251,9 @@
     <p>&copy; 2026 Julie's Bakery. All rights reserved.</p>
   </footer>
 
-  <dialog class="modal" id="registration-modal" open>
+
+  <!-- Registration modal -->
+  <dialog class="modal" id="registration-modal">
     <div class="modal-content">
       <div class="modal-image">
       <figure class="register-figure">
@@ -261,34 +262,64 @@
       </div>
       <div class="form-container">
       <h2>Create your account</h2>
-      <form action="" id="registration-form">
+      <form action="">
         <input type="text" name="name" id="name" placeholder="Full Name" required/>
         <input type="email" name="email" id="email" placeholder="Email Address" required/>
         <input type="tel" name="phone" id="phone" placeholder="Phone Number" required/>
-        <input type="password" name="password" id="password" placeholder="Password" required minlength="8" autocomplete="new-password"/>
-        <input type="password" name="confirm_password" id="confirm_password" placeholder="Confirm Password" required autocomplete="new-password"/>
+
+        <div class="password-wrapper">
+          <input type="password" name="password" id="password" placeholder="Password" required minlength="8" autocomplete="new-password"/>
+          <button type="button" class="toggle-password" aria-label="Show password" id="open-eye">
+            <i class='bx bx-eye'></i>
+          </button>
+        </div>
+
+        <div class="password-wrapper">
+          <input type="password" name="confirm_password" id="confirm_password" placeholder="Confirm Password" required autocomplete="new-password"/>
+          <button type="button" class="toggle-password" aria-label="Show password">
+            <i class='bx bx-eye'></i>
+          </button>
+        </div>
+
         <div class="error-message" id="password-error" aria-live="polite" style="display: none;"></div>
-        <button class="cta-button" id="register-button">Sign Up</button>
+        <button type="submit" class="cta-button" id="register-button">Sign Up</button>
       </form>
-      <p>Already have an account? <a href="#">Login</a></p>
+      <p>Already have an account? <a href="#" id="login-toggle">Login</a></p>
       </div> 
     </div>
   </dialog>
 
-  <dialog class="modal" id="login-modal">
+
+  <!-- Login modal -->
+  <dialog class="modal" id="login-modal" >
     <div class="modal-content">
-      
-      <form style="display: none;" action="">
-        <input type="email" name="email" id="email_login" placeholder="Email Address" required/>
-        <input type="password" name="password" id="password_login" placeholder="Password" required minlength="8"/>
-        <input type="checkbox" name="remember_me" id="remember_me"/>
-        <label for="remember_me">Remember me</label>
-        <button class="cta-button" id="login-button">Login</button>
-        <p>Don't have an account? <a href="#">Register</a></p>
-      </form>
+      <div class="form-container">
+        <h2>Welcome Back!</h2>
+        <form action="">
+          <input type="email" name="email" id="email_login" placeholder="Email Address" required/>
+          <div class="password-wrapper">
+          <input type="password" name="password" id="password_login" placeholder="Password" required minlength="8"/>
+          <button type="button" class="toggle-password" aria-label="Show password">
+            <i class='bx bx-eye'></i>
+          </div>
+          <div class="remember-checkbox">
+          <input type="checkbox" name="remember_me" id="remember_me"/>
+          <label for="remember_me">Remember me</label>
+          </div>
+          <button type="submit" class="cta-button" id="login-button">Login</button>
+        </form>
+        <p>Are you new here? <a href="#" id="register-toggle">Register</a></p>
+      </div>
+      <div class="modal-image">
+      <figure class="register-figure">
+        <img src="./images/psatryBundle.jpg">
+      </figure>
+      </div>
     </div>
 </dialog>
   
+
+  <script src="./script.js"></script>
 </body>
 
 </html>
