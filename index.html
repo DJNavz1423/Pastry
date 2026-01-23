@@ -28,6 +28,7 @@
 
   <!-- CSS Stylesheet -->
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="modal.css">
   <title>Julie's Bakery | Fresh Pastry From The Oven</title>
 </head>
 
@@ -250,6 +251,44 @@
     </nav>
     <p>&copy; 2026 Julie's Bakery. All rights reserved.</p>
   </footer>
+
+  <dialog class="modal" id="registration-modal" open>
+    <div class="modal-content">
+      <div class="modal-image">
+      <figure class="register-figure">
+        <img src="./images/pastries.jpg">
+      </figure>
+      </div>
+      <div class="form-container">
+      <h2>Create your account</h2>
+      <form action="" id="registration-form">
+        <input type="text" name="name" id="name" placeholder="Full Name" required/>
+        <input type="email" name="email" id="email" placeholder="Email Address" required/>
+        <input type="tel" name="phone" id="phone" placeholder="Phone Number" required/>
+        <input type="password" name="password" id="password" placeholder="Password" required minlength="8" autocomplete="new-password"/>
+        <input type="password" name="confirm_password" id="confirm_password" placeholder="Confirm Password" required autocomplete="new-password"/>
+        <div class="error-message" id="password-error" aria-live="polite" style="display: none;"></div>
+        <button class="cta-button" id="register-button">Sign Up</button>
+      </form>
+      <p>Already have an account? <a href="#">Login</a></p>
+      </div> 
+    </div>
+  </dialog>
+
+  <dialog class="modal" id="login-modal">
+    <div class="modal-content">
+      
+      <form style="display: none;" action="">
+        <input type="email" name="email" id="email_login" placeholder="Email Address" required/>
+        <input type="password" name="password" id="password_login" placeholder="Password" required minlength="8"/>
+        <input type="checkbox" name="remember_me" id="remember_me"/>
+        <label for="remember_me">Remember me</label>
+        <button class="cta-button" id="login-button">Login</button>
+        <p>Don't have an account? <a href="#">Register</a></p>
+      </form>
+    </div>
+</dialog>
+  
 </body>
 
 </html>
