@@ -262,7 +262,7 @@
       </div>
       <div class="form-container">
       <h2>Create your account</h2>
-      <form action="">
+      <form action="" method="post" id="registration-form">
         <input type="text" name="name" id="name" placeholder="Full Name" required/>
         <input type="email" name="email" id="email" placeholder="Email Address" required/>
         <input type="tel" name="phone" id="phone" placeholder="Phone Number" required/>
@@ -273,6 +273,9 @@
             <i class='bx bx-eye'></i>
           </button>
         </div>
+         <p class="password-hint" id="password-hint">
+          Password must be at least 8 characters
+         </p>
 
         <div class="password-wrapper">
           <input type="password" name="confirm_password" id="confirm_password" placeholder="Confirm Password" required autocomplete="new-password"/>
@@ -281,7 +284,8 @@
           </button>
         </div>
 
-        <div class="error-message" id="password-error" aria-live="polite" style="display: none;"></div>
+        <p class="error-message" id="password-error" aria-live="polite" style="display: none;"></p>
+
         <button type="submit" class="cta-button" id="register-button">Sign Up</button>
       </form>
       <p>Already have an account? <a href="#" id="login-toggle">Login</a></p>
@@ -295,7 +299,7 @@
     <div class="modal-content">
       <div class="form-container">
         <h2>Welcome Back!</h2>
-        <form action="">
+        <form action="" method="post">
           <input type="email" name="email" id="email_login" placeholder="Email Address" required/>
           <div class="password-wrapper">
           <input type="password" name="password" id="password_login" placeholder="Password" required minlength="8"/>
@@ -308,7 +312,7 @@
           </div>
           <button type="submit" class="cta-button" id="login-button">Login</button>
         </form>
-        <p>Are you new here? <a href="#" id="register-toggle">Register</a></p>
+        <p>Don't Have an Account? <a href="#" id="register-toggle">Register</a></p>
       </div>
       <div class="modal-image">
       <figure class="register-figure">
@@ -320,6 +324,7 @@
   
 
   <script src="./script.js"></script>
+  <script src="./passwordValidation.js"></script>
 </body>
 
 </html>

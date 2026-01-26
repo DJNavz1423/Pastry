@@ -31,7 +31,7 @@ dialog{
   overflow: hidden;
   position: relative;
   text-align: center;
-  aspect-ratio: 4/5;
+  aspect-ratio: 4/5.5;
   width: 100%;
   height: 100%;
 }
@@ -90,7 +90,7 @@ dialog{
   color: var(--gray);
   font-weight: 400;
   font-size: 16px;
-  border-color: var(--light-gray);
+  border-color: #6C646E;
   border: 0;
   border-radius: 25px;
   border-top-left-radius: 7px;
@@ -161,6 +161,7 @@ label[for="remember_me"]{
 }
 
 .toggle-password{
+  display: inline-block;
   position: absolute;
   top: 50%;
   right: -35px;
@@ -171,4 +172,20 @@ label[for="remember_me"]{
   font-size: 28px;
   color: var(--darkRed);
   padding: 0px;
+}
+
+form .password-hint{
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--gray-light);
+  margin: 0;
+  align-self: flex-start;
+  margin-top: -20px;
+  margin-bottom: 5px;
+}
+
+form #password-error{
+  align-self: flex-start;
+  margin: 0;
+  margin-top: -20px;
 }

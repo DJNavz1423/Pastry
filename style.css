@@ -569,7 +569,7 @@ section{
 }
 .contact-col-2 form input{
   padding: 12px 26px;
-  color: var(--gray);
+  color: var(--gray); 
   font-weight: 400;
   font-size: 16px;
   width: 90%;
@@ -619,4 +619,18 @@ footer p{
   font-family: "Open Sans", sans-serif;
   margin: 0;
   margin-bottom: 30px;
+}
+
+/* autofill inputs */
+input:-webkit-autofill {
+  -webkit-text-fill-color: var(--gray) !important;
+  -webkit-box-shadow: 0 0 0px 1000px var(--inputGray) inset !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+/* For autocomplete text */
+input::first-line {
+  color: var(--gray) !important;
+  font-size: 16px !important;
+  font-weight: 400 !important;
 }
