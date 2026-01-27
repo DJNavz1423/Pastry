@@ -28,8 +28,8 @@
  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 
   <!-- CSS Stylesheet -->
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="modal.css">
+  <link rel="stylesheet" href="./css/style.css">
+  <link rel="stylesheet" href="./css/modal.css">
   <title>Julie's Bakery | Fresh Pastry From The Oven</title>
 </head>
 
@@ -287,7 +287,7 @@
       </div>
       <div class="form-container">
       <h2>Create your account</h2>
-      <form action="" method="post" id="registration-form">
+      <form action="./formHandlers/register_handler.php" method="post" id="registration-form">
         <input type="text" name="name" id="name" placeholder="Full Name" required/>
         <input type="email" name="email" id="email" placeholder="Email Address" required/>
         <input type="tel" name="phone" id="phone" placeholder="Phone Number" required/>
@@ -324,7 +324,7 @@
     <div class="modal-content">
       <div class="form-container">
         <h2>Welcome Back!</h2>
-        <form action="" method="post">
+        <form action="./formHandlers/login_handler.php" method="post">
           <input type="email" name="email" id="email_login" placeholder="Email Address" required/>
           <div class="password-wrapper">
           <input type="password" name="password" id="password_login" placeholder="Password" required minlength="8"/>
@@ -348,8 +348,8 @@
 </dialog>
   
 
-  <script src="./script.js"></script>
-  <script src="./passwordValidation.js"></script>
+  <script src="./js/script.js"></script>
+  <script src="./js/passwordValidation.js"></script>
 </body>
 
 </html>

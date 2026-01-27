@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- Merienda Font-->
+  <link href="https://fonts.googleapis.com/css2?family=Merienda:wght@300..900&family=Spline+Sans:wght@300..700&display=swap" rel="stylesheet">
+  <!-- Lato Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Merienda:wght@300..900&family=Spline+Sans:wght@300..700&display=swap" rel="stylesheet">
+  <!-- Open Sans Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Merienda:wght@300..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Spline+Sans:wght@300..700&display=swap" rel="stylesheet">
+
+
+  <!-- Boxicons CSS -->
+   <!-- Basic Icons -->
+<link href="https://cdn.boxicons.com/3.0.8/fonts/basic/boxicons.min.css" rel="stylesheet">
+<!-- Filled Icons -->
+<link href="https://cdn.boxicons.com/3.0.8/fonts/filled/boxicons-filled.min.css" rel="stylesheet">
+<!-- Brand Icons -->
+<link href="https://cdn.boxicons.com/3.0.8/fonts/brands/boxicons-brands.min.css" rel="stylesheet">
+
+  <!-- Font Awesome CSS -->
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+  <!-- CSS Stylesheet -->
+  <link rel="stylesheet" href="./css/style.css">
+  <link rel="stylesheet" href="./css/modal.css">
+  <link rel="stylesheet" href="./css/form_page.css">
+
+  <title>Julie's Bakery | Login Page</title>
+</head>
+
+<body>
+
+  <!-- Login modal -->
+  <dialog class="modal" id="login-modal">
+    <div class="modal-content">
+      <div class="form-container">
+        <h2>Welcome Back!</h2>
+        <form action="" method="post">
+          <input type="email" name="email" id="email_login" placeholder="Email Address" required/>
+          <div class="password-wrapper">
+          <input type="password" name="password" id="password_login" placeholder="Password" required minlength="8"/>
+          <button type="button" class="toggle-password" aria-label="Show password">
+            <i class='bx bx-eye'></i>
+          </div>
+          <div class="remember-checkbox">
+          <input type="checkbox" name="remember_me" id="remember_me"/>
+          <label for="remember_me">Remember me</label>
+          </div>
+          <button type="submit" class="cta-button" id="login-button">Login</button>
+        </form>
+        <p>Don't Have an Account? <a href="#" id="register-toggle">Register</a></p>
+      </div>
+      <div class="modal-image">
+      <figure class="register-figure">
+        <img src="./images/psatryBundle.jpg">
+        <figcaption class="page-title"><h1 class="title">Julie's Bakery <i class='bx bx-cupcake'></i></h1></figcaption>
+      </figure>
+      </div>
+    </div>
+</dialog>
+
+
+
+<!-- Registration modal -->
+  <dialog class="modal" id="registration-modal">
+    <div class="modal-content">
+      <div class="modal-image">
+      <figure class="register-figure">
+        <img src="./images/pastries.jpg">
+        <figcaption class="page-title"><h1 class="title">Julie's Bakery <i class='bx bx-cupcake'></i></h1></figcaption>
+      </figure>
+      </div>
+      <div class="form-container">
+      <h2>Create your account</h2>
+      <form action="./formHandlers/register_handler.php" method="post" id="registration-form">
+        <input type="text" name="name" id="name" placeholder="Full Name" required/>
+        <input type="email" name="email" id="email" placeholder="Email Address" required/>
+        <input type="tel" name="phone" id="phone" placeholder="Phone Number" required/>
+
+        <div class="password-wrapper">
+          <input type="password" name="password" id="password" placeholder="Password" required minlength="8" autocomplete="new-password"/>
+          <button type="button" class="toggle-password" aria-label="Show password" id="open-eye">
+            <i class='bx bx-eye'></i>
+          </button>
+        </div>
+         <p class="password-hint" id="password-hint">
+          Password must be at least 8 characters
+         </p>
+
+        <div class="password-wrapper">
+          <input type="password" name="confirm_password" id="confirm_password" placeholder="Confirm Password" required autocomplete="new-password"/>
+          <button type="button" class="toggle-password" aria-label="Show password">
+            <i class='bx bx-eye'></i>
+          </button>
+        </div>
+
+        <p class="error-message" id="password-error" aria-live="polite" style="display: none;"></p>
+
+        <button type="submit" class="cta-button" id="register-button">Sign Up</button>
+      </form>
+      <p>Already have an account? <a href="#" id="login-toggle">Login</a></p>
+      </div> 
+    </div>
+  </dialog>
+
+  <script src="./js/form_script.js"></script>
+  <script src="./js/passwordValidation.js"></script>
+</body>
+
+</html>

@@ -162,7 +162,7 @@ section{
 
 .hero-section{
   padding: 90px 0 160px 0;
-  background-image: url('./images/pichapie.webp'), url('./images/pichapie.png');
+  background-image: url('../images/pichapie.webp'), url('./images/pichapie.png');
   background-repeat: no-repeat;
   background-size: 100%;
   

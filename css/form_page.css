@@ -1,0 +1,77 @@
+dialog{
+  display: flex;
+  background: var(--bgColor);
+}
+
+.modal-content{
+  width: 80%;
+  box-shadow: 0 10px 30px rgba(62, 39, 35, 0.5);
+}
+
+.form-container{
+  flex-basis: 85%;
+  height: 100%;
+}
+
+.form-container form input{
+  padding: 12px 94px 12px 26px;
+}
+
+.form-container h2{
+  font-size: 36px;
+}
+
+.form-container form .cta-button{
+  width: 130%;
+}
+
+.password-wrapper{
+  margin-left: -122px;
+}
+
+#registration-modal{
+  display: none;
+}
+
+#registration-modal .modal-image{
+  aspect-ratio: 4/4.2;
+}
+
+.toggle-password{
+  right: -100px;
+}
+
+.remember-checkbox{
+  margin-left: -40px;
+}
+
+#password-hint{
+  margin-left: -36px;
+}
+form #password-error{
+  margin-left: -36px;
+}
+
+h1.title{
+  margin: 0;
+  color: var(--red);
+  font-size: 18px;
+}
+.page-title{
+  font-family: "Merienda", "cursive";
+  position: absolute;
+  top: 0;
+  width: 42%;
+  padding: 10px 0;
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--white);
+  font-size: 20px;
+  font-weight: bold;
+  border-bottom-right-radius: 24px;
+}
+
+#registration-modal .page-title{
+  right: 0;
+  border-bottom-left-radius: 24px;
+  border-bottom-right-radius: 0px;
+}

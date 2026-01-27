@@ -30,41 +30,12 @@
  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 
   <!-- CSS Stylesheet -->
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="dashboard.css">
+  <link rel="stylesheet" href="./css/style.css">
+  <link rel="stylesheet" href="./css/dashboard.css">
   <title>Julie's Bakery | User Dashboard</title>
 </head>
 
 <body>
-  <header>
-    <form>
-      <i class='bx  bx-search'></i> 
-      <input type="search" id="search-bar" placeholder="Search">
-    </form>
-
-    <nav>
-      <ul>
-        <li><a></a></li>
-        <li><a></a></li>
-        <li>
-           <div class="user-account">
-        <div class="user-profile">
-          <img src="" alt="Profile Image">
-          <div class="user-details">
-            <h3>Name</h3>
-            <h4>user email</h4>
-          </div>
-        </div>
-      </div>
-        </li>
-      </ul>
-    </nav>
-  </header>
-
-  <main>
-    
-  </main>
-
   <aside class="sidebar">
     <nav>
       <a href="#home" class="sidebar-header"><i class='bx bx-cupcake'></i><h1>Julie's Bakery</h1></a>
@@ -96,7 +67,7 @@ logout
 
       <div class="user-account">
         <div class="user-profile">
-          <img src="" alt="Profile Image">
+          <img src="./images/profilepic.jpg" alt="Profile Image">
           <div class="user-details">
             <h3>Name</h3>
             <h4>user email</h4>
@@ -105,5 +76,44 @@ logout
       </div>
     </nav>
   </aside>
+
+  <div class="grid-column-2">
+  <header>
+    <form>
+      <div class="searchbar-wrapper">
+      <i class='bx  bx-search'></i> 
+      <input type="search" id="search-bar" placeholder="Search">
+      </div>
+    </form>
+
+    <nav>
+      <ul>
+        <li><a href=""><span class="material-symbols-outlined">
+notifications
+</span></a></li>
+        <li><a href=""><span class="material-symbols-outlined">
+chat
+</span></a></li>
+        <li class="header-user-info">
+           <div class="user-account">
+        <div class="user-profile">
+          <img src="./images/profilepic.jpg" alt="Profile Image">
+          <div class="user-details">
+            <h3>Name</h3>
+            <h4>user email</h4>
+          </div>
+        </div>
+      </div>
+        </li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section class="dashboard-hero-section"></section>
+  </main>
+</div>
+
+  
 </body>
 </html>
