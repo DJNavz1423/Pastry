@@ -12,6 +12,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Merienda:wght@300..900&family=Spline+Sans:wght@300..700&display=swap" rel="stylesheet">
   <!-- Lato Font -->
   <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Merienda:wght@300..900&family=Spline+Sans:wght@300..700&display=swap" rel="stylesheet">
+  <!-- Open Sans Font -->
   <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Merienda:wght@300..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Spline+Sans:wght@300..700&display=swap" rel="stylesheet">
 
 
@@ -34,12 +35,35 @@
 
 <body>
   <header>
+    <article class="contact-wrapper">
+      <dl class="contact-details">
+        <div class="description-item">
+        <dt>Support</dt>
+        <dd>+63 908-818-4444</dd>
+        </div>
+
+        <div class="description-item">
+        <dt>Email Us</dt>
+        <dd>jhulieberg@gmail.com</dd>
+        </div>
+
+        <div class="description-item">
+        <dt>Open Time</dt>
+        <dd><time datetime="10:00">10 AM</time> - <time datetime="22:00">10 PM</time></dd>
+        </div>
+
+        <div class="description-item">
+        <dt>Address</dt>
+        <dd><address id="header-address">Matina Crossing, Davao City</address></dd>
+        </div>
+      </dl>
+    </article>
     <nav>
       <a href="#home"><h1 class="title">Julie's Bakery <i class='bx bx-cupcake'></i></h1></a>
       <ul>
         <li><a href="#about">About</a></li>
         <li><a href="#products">Products</a></li>
-        <li><a href="#contact">Contact</a></li>
+        <li><a href="#contact">Delivery</a></li>
         <li><button class="cta-button register" id="register-button">Register</button></li>
       </ul>
 
@@ -216,7 +240,7 @@
     </section>
 
 
-    <!-- Contact Section -->
+    <!-- Delivery Section -->
 
     <section class="contact-section" id="contact">
       <div class="contact-content">
@@ -231,6 +255,7 @@
           <p>Fill out the fields below, and we will contact you soon to take your order!</p>
           <form action="">
             <input type="text" name="Name" placeholder="Name" required/>
+            <input type="email" name="Email" placeholder="Email" required>
             <input type="tel" name="Phone" placeholder="Phone Number" required/>
             <button class="cta-button">Order Pastries</button>
           </form>
