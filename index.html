@@ -28,8 +28,8 @@
  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 
   <!-- CSS Stylesheet -->
-  <link rel="stylesheet" href="./css/style.css">
-  <link rel="stylesheet" href="./css/modal.css">
+  <link rel="stylesheet" href="./css/style.css?v=<?php echo time(); ?>">
+  <link rel="stylesheet" href="./css/modal.css?v=<?php echo time(); ?>">
   <title>Julie's Bakery | Fresh Pastry From The Oven</title>
 </head>
 
@@ -229,7 +229,7 @@
         <div class="custom-col-1">
           <h3>We make extraordinary sweets with individual design</h3>
           <p>Anything you can imagine is possible with Julie’s Bakery. We are ready to bring your ideas to life and create a memorable piece of sweet art. You can order pastries in your corporate style and work with our pastry artists on layers, fillings, and frosting. Julie’s Bakery is delighted to craft exclusive pastries, thoughtfully designed to reflect every detail—from the guest of honor to the holiday location.</p>
-          <button class="cta-button" id="custom-order-cta-button">Make an order</button>
+          <a href="#contact"><button class="cta-button" id="custom-order-cta-button">Make an order</button></a>
         </div>
 
         <div class="custom-col-2">
@@ -264,13 +264,15 @@
     </section>
   </main>
 
+
+  <!-- FOOTER -->
   <footer>
     <a href="#home"><h1 class="title">Julie's Bakery <span class="cupcake-icon"><i class='bx  bx-cupcake'></i></span></h1></a>
     <nav class="footer-nav">
       <ul>
-        <li><i class="fa-brands fa-facebook"></i></li>
-        <li><i class="fa-brands fa-instagram"></i></li>
-        <li><i class="fa-brands fa-youtube"></i></li>
+        <li><a href="https://www.facebook.com" target="_blank"><i class="fa-brands fa-facebook"></i></a></li>
+        <li><a href="https://www.instagram.com" target="_blank"><i class="fa-brands fa-instagram"></i></a></li>
+        <li><a href="https://www.youtube.com" target="_blank"><i class="fa-brands fa-youtube"></i></a></li>
       </ul>
     </nav>
     <p>&copy; 2026 Julie's Bakery. All rights reserved.</p>

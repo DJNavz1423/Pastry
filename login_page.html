@@ -27,9 +27,9 @@
  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 
   <!-- CSS Stylesheet -->
-  <link rel="stylesheet" href="./css/style.css">
-  <link rel="stylesheet" href="./css/modal.css">
-  <link rel="stylesheet" href="./css/form_page.css">
+  <link rel="stylesheet" href="./css/style.css?v=<?php echo time(); ?>">
+  <link rel="stylesheet" href="./css/modal.css?v=<?php echo time(); ?>">
+  <link rel="stylesheet" href="./css/form_page.css?v=<?php echo time(); ?>">
 
   <title>Julie's Bakery | Login Page</title>
 </head>
@@ -41,7 +41,7 @@
     <div class="modal-content">
       <div class="form-container">
         <h2>Welcome Back!</h2>
-        <form action="" method="post">
+        <form action="./formHandlers/login_handler.php" method="post">
           <input type="email" name="email" id="email_login" placeholder="Email Address" required/>
           <div class="password-wrapper">
           <input type="password" name="password" id="password_login" placeholder="Password" required minlength="8"/>

@@ -2,33 +2,43 @@
 session_start();
 require '../database/db.php';
 
-if($_SERVER['REQUEST_METHOD'] == 'POST'){
-  $fullName = htmlspecialchars(trim($_POST['name']));
-  $email = htmlspecialchars(trim($_POST['email']));
-  $password = htmlspecialchars(trim($_POST['confirm_password']));
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-  if(empty($fullName) || empty($email) || empty($password)){
+  $fullName = trim($_POST['name']);
+  $email = trim($_POST['email']);
+  $phone = trim($_POST['phone']);
+  $password = trim($_POST['password']);
+  $confirmPassword = trim($_POST['confirm_password']);
+
+  if (empty($fullName) || empty($email) || empty($phone) || empty($password)) {
     echo "ALL FIELDS ARE REQUIRED.";
+    exit;
+  }
+
+  if ($password !== $confirmPassword) {
+    echo "Passwords do not match.";
     exit;
   }
 
   $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
-  $stmt = $conn->prepare("INSERT INTO users (fullName, email, password) VALUES (?, ?, ?)");
+  $stmt = $conn->prepare(
+    "INSERT INTO users (full_name, email, phone, password) VALUES (?, ?, ?, ?)"
+  );
 
-  if($stmt === false){
-    die('Prepare Failed: ' . htmlspecialchars($conn->error));
+  if (!$stmt) {
+    die("Prepare Failed: " . $conn->error);
   }
 
-  $stmt->bind_param("sss", $fullName, $email, $hashedPassword);
-  
-  if($stmt->execute()){
+  $stmt->bind_param("ssss", $fullName, $email, $phone, $hashedPassword);
+
+  if ($stmt->execute()) {
     $_SESSION['email'] = $email;
-    header('Location: ../dashboard.php');
+    header("Location: ../login_page.html");
+    exit;
+  } else {
+    echo "Database Error: " . $stmt->error;
   }
 
-  else{
-    echo "Error: Could not register user.";
-  }
-$stmt->close();
+  $stmt->close();
 }

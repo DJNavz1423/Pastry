@@ -14,6 +14,7 @@ dialog{
   border-color: var(--gray);
   overflow: hidden;
   background: rgba(0, 0, 0, 0.5);
+  border: none;
 }
 .modal-content{
   background-color: var(--white);

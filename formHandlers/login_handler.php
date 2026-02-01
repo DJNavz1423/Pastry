@@ -25,19 +25,26 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     $user = $result->fetch_assoc();
 
     if(password_verify($password, $user['password'])){
-      $_SESSION['email'] = $user['email'];
+      $_SESSION['user_id'] = $user['id'];
+            $_SESSION['email'] = $user['email'];
+            $_SESSION['full_name'] = $user['full_name'];
+            $_SESSION['phone'] = $user['phone'];
       header('Location: ../dashboard.php');
       exit;
     }
 
     else{
-      echo "INVALID EMAIL OR PASSWORD.";
+      header('Location: ../login_page.html?error=invalid_credentials');
+            exit;
     }
   }
 
   else{
-    echo "INVALID EMAIL OR PASSWORD.";
+    header('Location: ../login_page.html?error=invalid_credentials');
+            exit;
   }
 
   $stmt->close();
+  $conn->close();
 }
+?>

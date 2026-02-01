@@ -1,3 +1,40 @@
+<!--<?php
+session_start();
+
+if(!isset($_SESSION['email'])){
+  header('Location: login_page.html');
+  exit;
+}
+
+require './database/db.php';
+
+$email = $_SESSION['email'];
+
+$stmt = $conn->prepare("SELECT * FROM users where email = ?");
+$stmt->bind_param("s", $email);
+$stmt->execute();
+$result = $stmt->get_result();
+
+if($result->num_rows > 0){
+  $user - $result->fetch_assoc();
+
+  $fullName = $user['full_name'];
+  $firstName = explode(' ', $fullName)[0];
+
+  $_SESSION['user_id'] = $user['id'];
+  $_SESSION['full_name'] = $fullName['id'];
+  $_SESSION['first_name'] = $firstName;
+  $_SESSION['phone'] = $user['phone'];
+} else{
+  session_destroy();
+  header('Location: login_page.html');
+  exit;
+}
+
+$stmt->close();
+$conn->close();
+?> -->
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -30,8 +67,8 @@
  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 
   <!-- CSS Stylesheet -->
-  <link rel="stylesheet" href="./css/style.css">
-  <link rel="stylesheet" href="./css/dashboard.css">
+  <link rel="stylesheet" href="./css/style.css?v=<?php echo time(); ?>">
+  <link rel="stylesheet" href="./css/dashboard.css?v=<?php echo time(); ?>">
   <title>Julie's Bakery | User Dashboard</title>
 </head>
 
@@ -69,8 +106,8 @@ logout
         <div class="user-profile">
           <img src="./images/profilepic.jpg" alt="Profile Image">
           <div class="user-details">
-            <h3>Name</h3>
-            <h4>user email</h4>
+            <h3><?php echo htmlspecialchars($firstName); ?></h3>
+            <h4><?php echo htmlspecialchars($user['email']); ?></h4>
           </div>
         </div>
       </div>
@@ -94,13 +131,16 @@ notifications
         <li><a href=""><span class="material-symbols-outlined">
 chat
 </span></a></li>
+<li><a href=""><span class="material-symbols-outlined">
+shopping_cart
+</span></a></li>
         <li class="header-user-info">
            <div class="user-account">
         <div class="user-profile">
           <img src="./images/profilepic.jpg" alt="Profile Image">
           <div class="user-details">
-            <h3>Name</h3>
-            <h4>user email</h4>
+            <h3><?php echo htmlspecialchars($firstName); ?></h3>
+            <h4><?php echo htmlspecialchars($user['email']); ?></h4>
           </div>
         </div>
       </div>
@@ -110,10 +150,154 @@ chat
   </header>
 
   <main>
-    <section class="dashboard-hero-section"></section>
+    <section class="dashboard-hero-section">
+      <div class="dashboard-hero-content">
+        <p>Deal of the weekend</p>
+        <h1>Hello, <?php echo htmlspecialchars($firstName); ?></h1>
+        <p>Get FREE delivery on every weekend</p>
+
+        <a href="#"><button type="button" class="cta-button">Check Menu</button></a>
+      </div>
+    </section>
+
+    <section class="dashboard-product-section">
+      <div class="product-subsection">
+        <!--category-->
+        <div class="dashboard-products-container">
+          <div class="heading-nav">
+          <h2>Category</h2>
+          <a href="">View All</a>
+          </div>
+
+          <div class="category-container">
+            <div class="category">
+              <figure>
+                <img src="" alt="Cake Category">
+                <figcaption>Cake</figcaption>
+              </figure>
+            </div>
+
+            <div class="category">
+              <figure>
+                <img src="" alt="Pastry Category">
+                <figcaption>Pastry</figcaption>
+              </figure>
+            </div>
+
+            <div class="category">
+              <figure>
+                <img src="" alt="Cookie Category">
+                <figcaption>Cookie</figcaption>
+              </figure>
+            </div>
+
+            <div class="category">
+              <figure>
+                <img src="" alt="Bread Category">
+                <figcaption>Bread</figcaption>
+              </figure>
+            </div>
+          </div>
+        </div>
+
+        <!--trending-->
+        <div class="dashboard-products-container">
+          <h2>Trending Products</h2>
+
+          <div class="trending-container">
+            <div class="trending">
+              <figure>
+                <img src="" alt="trending-product">
+                <figcaption>
+                  <h3>Egg Pie</h3>
+                  <p>&#8369;100.00</p>
+                </figcaption>
+              </figure>
+            </div>
+
+            <div class="trending">
+              <figure>
+                <img src="" alt="trending-product">
+                <figcaption>
+                  <h3>Egg Pie</h3>
+                  <p>&#8369;100.00</p>
+                </figcaption>
+              </figure>
+            </div>
+
+            <div class="trending">
+              <figure>
+                <img src="" alt="trending-product">
+                <figcaption>
+                  <h3>Egg Pie</h3>
+                  <p>&#8369;100.00</p>
+                </figcaption>
+              </figure>
+            </div>
+
+            <div class="trending">
+              <figure>
+                <img src="" alt="trending-product">
+                <figcaption>
+                  <h3>Egg Pie</h3>
+                  <p>&#8369;100.00</p>
+                </figcaption>
+              </figure>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="cart-subsection">
+        <div class="heading-nav">
+          <h2>My Cart</h2>
+          <a href="">View All</a>
+          </div>
+
+        <div class="cart-container">
+          <figure>
+            <img src="" alt="cart-product"> 
+            <figcaption>
+              <h3>Name</h3>
+              <p>&#8369;100.00</p>
+            </figcaption>
+          </figure>
+        </div>
+
+        <div class="cart-container">
+          <figure>
+            <img src="" alt="cart-product"> 
+            <figcaption>
+              <h3>Name</h3>
+              <p>&#8369;100.00</p>
+            </figcaption>
+          </figure>
+        </div>
+
+        <div class="cart-container">
+          <figure>
+            <img src="" alt="cart-product"> 
+            <figcaption>
+              <h3>Name</h3>
+              <p>&#8369;100.00</p>
+            </figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
   </main>
 </div>
 
   
+<script>
+window.addEventListener('scroll', function() {
+  const header = document.querySelector('header');
+  if (window.scrollY > 0) { // Change 50 to whatever scroll distance you want
+    header.classList.add('scrolled');
+  } else {
+    header.classList.remove('scrolled');
+  }
+});
+</script>
 </body>
 </html>

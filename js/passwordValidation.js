@@ -94,6 +94,8 @@ document.addEventListener('DOMContentLoaded', function() {
       confirmPasswordInput.focus();
       return false;
     }
+
+    
     
     // If everything is valid
     console.log('Form is valid. Submitting...');
@@ -109,10 +111,12 @@ document.addEventListener('DOMContentLoaded', function() {
     // Simulate form submission (remove in production)
     setTimeout(() => {
       
-      alert('Registration successful! (This is a demo)');
+      alert('Registration successful!');
       closeModal();
-    }, 500);
+    }, 1500);
     
+
+    form.submit();
     return true;
   });
 

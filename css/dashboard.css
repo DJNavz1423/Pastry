@@ -130,11 +130,19 @@ nav{
 
 /* header */
 header{
+  position: sticky;
+  top: 0;
+  z-index: 100; /* Ensure it stays above other content */
+  background: var(--bgColor);
+  
+  padding: 10px;
   display: flex;
   align-items: center;
   flex-direction: row;
-  padding: 10px 0;
-   gap: 260px;
+  gap: 260px;
+}
+header.scrolled{
+   padding-top: 30px !important;
 }
 header form{
   
@@ -185,6 +193,10 @@ header nav ul{
 header nav ul li{
   margin: 0;
   width: fit-content;
+  text-align: center;
+}
+header nav ul li a{
+  position: static;
 }
 header nav ul li .user-account{
   padding: 0;
