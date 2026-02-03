@@ -16,13 +16,13 @@ $stmt->execute();
 $result = $stmt->get_result();
 
 if($result->num_rows > 0){
-  $user - $result->fetch_assoc();
+  $user = $result->fetch_assoc();
 
   $fullName = $user['full_name'];
   $firstName = explode(' ', $fullName)[0];
 
   $_SESSION['user_id'] = $user['id'];
-  $_SESSION['full_name'] = $fullName['id'];
+  $_SESSION['full_name'] = $fullName;
   $_SESSION['first_name'] = $firstName;
   $_SESSION['phone'] = $user['phone'];
 } else{
@@ -97,9 +97,9 @@ account_circle
         <li><a href=""><span class="material-symbols-outlined">
 settings
 </span>Settings</a></li>
-        <li><a href=""><span class="material-symbols-outlined">
+        <li><form action="./formHandlers/logout_handler.php" method="post"><button id="logout_button"><a href="./formHandlers/logout_handler.php"><span class="material-symbols-outlined">
 logout
-</span>Logout</a></li>
+</span>Logout</a></button></form></li>
       </ul>
 
       <div class="user-account">
@@ -187,21 +187,21 @@ shopping_cart
 
             <div class="category">
               <figure>
-                <img src="./images/cake3.jpg" alt="category img">
+                <img src="./images/pastry1.jpg" alt="category img">
                 <figcaption>Pastry</figcaption>
               </figure>
             </div>
 
             <div class="category">
               <figure>
-                <img src="./images/cake3.jpg" alt="category img">
+                <img src="./images/cookie.jpg" alt="category img">
                 <figcaption>Cookie</figcaption>
               </figure>
             </div>
 
             <div class="category">
               <figure>
-                <img src="./images/cake3.jpg" alt="category img">
+                <img src="./images/bread.jpg" alt="category img">
                 <figcaption>Bread</figcaption>
               </figure>
             </div>
@@ -220,7 +220,15 @@ shopping_cart
                 </span>
                 <figcaption>
                   <h3>Egg Pie</h3>
-                  <p><span class="php-symbol">&#8369;</span>100.00</p>
+                  <data><span class="php-symbol">&#8369;</span>100.00</data>
+                  <div class="buttons-wrapper">
+                  <button type="button" class="cta-button add-cart-btn"><span class="material-symbols-outlined">
+add_shopping_cart
+</span> Add to Cart</button>
+<span class="material-symbols-outlined heart_plus">
+heart_plus
+</span>
+</div>
                 </figcaption>
               </figure>
             </div>
@@ -232,7 +240,15 @@ shopping_cart
                 </span>
                 <figcaption>
                   <h3>Egg Pie</h3>
-                  <p><span class="php-symbol">&#8369;</span>100.00</p>
+                  <data><span class="php-symbol">&#8369;</span>100.00</data>
+                  <div class="buttons-wrapper">
+                  <button type="button" class="cta-button add-cart-btn"><span class="material-symbols-outlined">
+add_shopping_cart
+</span> Add to Cart</button>
+<span class="material-symbols-outlined heart_plus">
+heart_plus
+</span>
+</div>
                 </figcaption>
               </figure>
             </div>
@@ -244,7 +260,15 @@ shopping_cart
                 </span>
                 <figcaption>
                   <h3>Egg Pie</h3>
-                  <p><span class="php-symbol">&#8369;</span>100.00</p>
+                  <data><span class="php-symbol">&#8369;</span>100.00</data>
+                  <div class="buttons-wrapper">
+                  <button type="button" class="cta-button add-cart-btn"><span class="material-symbols-outlined">
+add_shopping_cart
+</span> Add to Cart</button>
+<span class="material-symbols-outlined heart_plus">
+heart_plus
+</span>
+</div>
                 </figcaption>
               </figure>
             </div>
@@ -256,7 +280,15 @@ shopping_cart
                 </span>
                 <figcaption>
                   <h3>Egg Pie</h3>
-                  <p><span class="php-symbol">&#8369;</span>100.00</p>
+                  <data><span class="php-symbol">&#8369;</span>100.00</data>
+                  <div class="buttons-wrapper">
+                  <button type="button" class="cta-button add-cart-btn"><span class="material-symbols-outlined">
+add_shopping_cart
+</span> Add to Cart</button>
+<span class="material-symbols-outlined heart_plus">
+heart_plus
+</span>
+</div>
                 </figcaption>
               </figure>
             </div>
@@ -270,6 +302,7 @@ shopping_cart
           <a href="">View All</a>
           </div>
 
+          <div class="cart-product-container">
         <div class="cart-container wide-container">
           <figure>
             <span class="img-container">
@@ -277,7 +310,7 @@ shopping_cart
             </span>  
             <figcaption>
               <h3>Name</h3>
-              <p>&#8369;100.00</p>
+              <data><span class="php-symbol">&#8369;</span>100.00</data>
             </figcaption>
           </figure>
         </div>
@@ -289,7 +322,7 @@ shopping_cart
             </span> 
             <figcaption>
               <h3>Name</h3>
-              <p>&#8369;100.00</p>
+              <data><span class="php-symbol">&#8369;</span>100.00</data>
             </figcaption>
           </figure>
         </div>
@@ -301,9 +334,10 @@ shopping_cart
             </span>  
             <figcaption>
               <h3>Name</h3>
-              <p>&#8369;100.00</p>
+              <data><span class="php-symbol">&#8369;</span>100.00</data>
             </figcaption>
           </figure>
+          </div>
         </div>
       </div>
     </section>
