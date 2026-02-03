@@ -13,6 +13,15 @@ nav{
   box-sizing: border-box;
 }
 
+figure{
+  margin: 0;
+}
+
+h3{
+  margin: 0;
+  font-size: 23px;
+}
+
 /* sidebar */
 .sidebar{
   grid-column: 1;
@@ -66,7 +75,7 @@ nav{
   padding: 15px 20px;
   white-space: nowrap;
 }.sidebar ul li a:hover::after{
-  width: 0;
+  width: 0px;
 }
 
 .sidebar ul li a:hover{
@@ -126,6 +135,7 @@ nav{
   display: flex;
   flex-direction: column;
   padding: 20px;
+  padding-top: 0px;
 }
 
 /* header */
@@ -136,14 +146,13 @@ header{
   background: var(--bgColor);
   
   padding: 10px;
+  padding-top: 30px;
   display: flex;
   align-items: center;
   flex-direction: row;
   gap: 260px;
 }
-header.scrolled{
-   padding-top: 30px !important;
-}
+
 header form{
   
  width: 50%;
@@ -197,6 +206,8 @@ header nav ul li{
 }
 header nav ul li a{
   position: static;
+}header nav ul li a:hover::after{
+  width: 0;
 }
 header nav ul li .user-account{
   padding: 0;
@@ -207,6 +218,211 @@ header nav ul li .user-account{
 
 
 /* main */
-main{
+section{
+  padding: 0px;
+  margin-top: 30px;
+}
+
+
+/* hero */
+.dashboard-hero-section{
+  margin: 30px 0px 0px 0px;
+}
+
+.dashboard-hero-content {
+  display: flex;
+  position: relative;
+  min-height: 200px;
+  border-radius: 16px;
+  border: 0;
+  overflow: hidden;
+}
+
+.hero-content-col-1 {
+  padding: 10px 20px 10px 25px;
+  position: relative;
+  z-index: 2;
+  flex: 0 0 65%;
+  background: linear-gradient(to right, 
+    rgba(255, 255, 255, 1) 0%,
+    rgba(255, 255, 255, 1) 80%,
+    rgba(255, 255, 255, 0.8) 85%,
+    rgba(255, 255, 255, 0.5) 90%,
+    rgba(255, 255, 255, 0.3) 95%,
+    rgba(255, 255, 255, 0) 100%);
+}
+.hero-content-col-1 p{
+  font-weight: 400;
+}
+.hero-content-col-1 h1{
+  font-size: 64px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+.hero-content-col-1 button{
+  margin: 40px 0px 20px 0px
+}
+
+.hero-content-col-2 {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  left: 35%;
+  z-index: 1;
+}
+
+.hero-content-col-2 figure {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border: none;
+}
+
+.hero-content-col-2 figure img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center -100px;
+  border: none;
+}
+
+/* products section  */
+main h2{
+  font-size: 36px;
+}
+.dashboard-product-section{
+  display: flex;
+  flex-direction: row;
+  gap: 30px;
+  margin: 0;
+}
+
+/* category and trending wrapper */
+.product-subsection{
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.heading-nav{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0px 5px;
+}
+.heading-nav a{
+  color: var(--darkRed);
+}
+
+.category-container{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+}
+
+figcaption{
+  font-family: "Merienda", "cursive";
+}
+
+.category{
+  overflow: hidden;
   
+  flex: 1;
+}
+.category figure{
+  overflow: hidden;
+  min-width: 170px;
+  max-width: 100%;
+  height: 170px;
+  position: relative;
+  text-align: center;
+  cursor: pointer;
+  border-radius: 18px;
+}
+.category figure img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center -50px;
+  transition: all 0.3s ease;
+}
+.category figcaption{
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  padding: 8px 0;
+  background: rgba(0, 0, 0, 0.5);
+  color: var(--white);
+  font-size: 16px;
+  font-weight: bold;
+  transition: all 0.3s ease-in-out;
+}
+.category figure:hover figcaption{
+  padding: 6.5px 0;
+  font-size: 18px;
+  background: rgba(0, 0, 0, 0.8);
+  transition: all 0.3s ease-in-out;
+}
+.category figure img:hover{
+  transform: scale(1.1);
+  transition: transform 0.3s ease;
+}
+
+
+
+/* trending products*/
+.trending-container{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 24px;
+}
+
+.wide-container{
+  background: var(--white);
+  border-radius: 20px;
+}
+
+.wide-container figure{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.img-container{
+  overflow: hidden;
+  min-width: 120px;
+  max-width: 100%;
+  height: 100px;
+}
+
+.img-container img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.wide-container figure figcaption{
+  width: 100%;
+  padding: 14px;
+}
+
+figcaption p{
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.php-symbol{
+  color: #0a9233;
+}
+
+/* cart */
+.cart-subsection{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
 }

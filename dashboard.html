@@ -104,7 +104,7 @@ logout
 
       <div class="user-account">
         <div class="user-profile">
-          <img src="./images/profilepic.jpg" alt="Profile Image">
+          <img src="./images/blank-pfp1.jpg" alt="Profile Image">
           <div class="user-details">
             <h3><?php echo htmlspecialchars($firstName); ?></h3>
             <h4><?php echo htmlspecialchars($user['email']); ?></h4>
@@ -137,7 +137,7 @@ shopping_cart
         <li class="header-user-info">
            <div class="user-account">
         <div class="user-profile">
-          <img src="./images/profilepic.jpg" alt="Profile Image">
+          <img src="./images/blank-pfp1.jpg" alt="Profile Image">
           <div class="user-details">
             <h3><?php echo htmlspecialchars($firstName); ?></h3>
             <h4><?php echo htmlspecialchars($user['email']); ?></h4>
@@ -152,11 +152,19 @@ shopping_cart
   <main>
     <section class="dashboard-hero-section">
       <div class="dashboard-hero-content">
+        <div class="hero-content-col-1">
         <p>Deal of the weekend</p>
-        <h1>Hello, <?php echo htmlspecialchars($firstName); ?></h1>
+        <h1>Hello, <?php echo htmlspecialchars($firstName); ?>!</h1>
         <p>Get FREE delivery on every weekend</p>
 
         <a href="#"><button type="button" class="cta-button">Check Menu</button></a>
+        </div>
+
+        <div class="hero-content-col-2">
+          <figure>
+            <img src="./images/blueberry-cheesecake.jpg" alt="blueberry-cheesecake">
+          </figure>
+        </div>
       </div>
     </section>
 
@@ -172,28 +180,28 @@ shopping_cart
           <div class="category-container">
             <div class="category">
               <figure>
-                <img src="" alt="Cake Category">
+                <img src="./images/cake3.jpg" alt="category img">
                 <figcaption>Cake</figcaption>
               </figure>
             </div>
 
             <div class="category">
               <figure>
-                <img src="" alt="Pastry Category">
+                <img src="./images/cake3.jpg" alt="category img">
                 <figcaption>Pastry</figcaption>
               </figure>
             </div>
 
             <div class="category">
               <figure>
-                <img src="" alt="Cookie Category">
+                <img src="./images/cake3.jpg" alt="category img">
                 <figcaption>Cookie</figcaption>
               </figure>
             </div>
 
             <div class="category">
               <figure>
-                <img src="" alt="Bread Category">
+                <img src="./images/cake3.jpg" alt="category img">
                 <figcaption>Bread</figcaption>
               </figure>
             </div>
@@ -205,42 +213,50 @@ shopping_cart
           <h2>Trending Products</h2>
 
           <div class="trending-container">
-            <div class="trending">
+            <div class="trending wide-container">
               <figure>
-                <img src="" alt="trending-product">
+                <span class="img-container">
+                <img src="./images/eggpie.png" alt="trending-product">
+                </span>
                 <figcaption>
                   <h3>Egg Pie</h3>
-                  <p>&#8369;100.00</p>
+                  <p><span class="php-symbol">&#8369;</span>100.00</p>
                 </figcaption>
               </figure>
             </div>
 
-            <div class="trending">
+            <div class="trending wide-container">
               <figure>
-                <img src="" alt="trending-product">
+                <span class="img-container">
+                <img src="./images/eggpie.png" alt="trending-product">
+                </span>
                 <figcaption>
                   <h3>Egg Pie</h3>
-                  <p>&#8369;100.00</p>
+                  <p><span class="php-symbol">&#8369;</span>100.00</p>
                 </figcaption>
               </figure>
             </div>
 
-            <div class="trending">
+            <div class="trending wide-container">
               <figure>
-                <img src="" alt="trending-product">
+                <span class="img-container">
+                <img src="./images/eggpie.png" alt="trending-product">
+                </span>
                 <figcaption>
                   <h3>Egg Pie</h3>
-                  <p>&#8369;100.00</p>
+                  <p><span class="php-symbol">&#8369;</span>100.00</p>
                 </figcaption>
               </figure>
             </div>
 
-            <div class="trending">
+            <div class="trending wide-container">
               <figure>
-                <img src="" alt="trending-product">
+                <span class="img-container">
+                <img src="./images/eggpie.png" alt="trending-product">
+                </span>
                 <figcaption>
                   <h3>Egg Pie</h3>
-                  <p>&#8369;100.00</p>
+                  <p><span class="php-symbol">&#8369;</span>100.00</p>
                 </figcaption>
               </figure>
             </div>
@@ -254,9 +270,11 @@ shopping_cart
           <a href="">View All</a>
           </div>
 
-        <div class="cart-container">
+        <div class="cart-container wide-container">
           <figure>
-            <img src="" alt="cart-product"> 
+            <span class="img-container">
+            <img src="./images/eggpie.png" alt="cart-product">
+            </span>  
             <figcaption>
               <h3>Name</h3>
               <p>&#8369;100.00</p>
@@ -264,9 +282,11 @@ shopping_cart
           </figure>
         </div>
 
-        <div class="cart-container">
+        <div class="cart-container wide-container">
           <figure>
-            <img src="" alt="cart-product"> 
+            <span class="img-container">
+            <img src="./images/eggpie.png" alt="cart-product">
+            </span> 
             <figcaption>
               <h3>Name</h3>
               <p>&#8369;100.00</p>
@@ -274,9 +294,11 @@ shopping_cart
           </figure>
         </div>
 
-        <div class="cart-container">
+        <div class="cart-container wide-container">
           <figure>
-            <img src="" alt="cart-product"> 
+            <span class="img-container">
+            <img src="./images/eggpie.png" alt="cart-product">
+            </span>  
             <figcaption>
               <h3>Name</h3>
               <p>&#8369;100.00</p>
@@ -288,16 +310,5 @@ shopping_cart
   </main>
 </div>
 
-  
-<script>
-window.addEventListener('scroll', function() {
-  const header = document.querySelector('header');
-  if (window.scrollY > 0) { // Change 50 to whatever scroll distance you want
-    header.classList.add('scrolled');
-  } else {
-    header.classList.remove('scrolled');
-  }
-});
-</script>
 </body>
 </html>
