@@ -27,6 +27,7 @@ body {
   background-color: var(--bgColor);
   color: var(--gray);
   overflow-x: hidden;
+  position: relative;
 }
 
 h1, h2, h3, h4{
@@ -681,4 +682,24 @@ input::first-line {
   color: var(--gray) !important;
   font-size: 16px !important;
   font-weight: 400 !important;
+}
+
+/****** back to top button **********/
+#back-to-top{
+  background: var(--red);
+  position: fixed; 
+  bottom: 20px; 
+  right: 20px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  scale: 0;
+  transition: 0.3s ease;
+}
+#back-to-top svg path{
+  fill: var(--bgColor);
 }
