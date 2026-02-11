@@ -611,7 +611,7 @@ section{
   color: var(--gray); 
   font-weight: 400;
   font-size: 16px;
-  width: 90%;
+  width: 100%;
   border-color: #6C646E;
   border-radius: 25px;
   border-top-left-radius: 7px;
@@ -667,7 +667,8 @@ footer p{
 
 /*  forms borderbox*/
 form *{
-  box-sizing: content-box;
+  box-sizing: border-box;
+  position: relative;
 }
 
 /* autofill inputs */

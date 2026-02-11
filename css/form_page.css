@@ -21,35 +21,12 @@ dialog{
   font-size: 36px;
 }
 
-.form-container form .cta-button{
-  width: 130%;
-}
-
-.password-wrapper{
-  margin-left: -122px;
-}
-
 #registration-modal{
   display: none;
 }
 
 #registration-modal .modal-image{
   aspect-ratio: 4/4.2;
-}
-
-.toggle-password{
-  right: -100px;
-}
-
-.remember-checkbox{
-  margin-left: -40px;
-}
-
-#password-hint{
-  margin-left: -36px;
-}
-form #password-error{
-  margin-left: -36px;
 }
 
 h1.title{

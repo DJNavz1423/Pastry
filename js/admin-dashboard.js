@@ -25,6 +25,12 @@ document.addEventListener('DOMContentLoaded', function() {
             // Show selected section
             const sectionId = this.getAttribute('data-section');
             document.getElementById(sectionId).classList.add('active');
+
+            // Refresh archive tables when entering the archive section
+            if (sectionId === 'archive') {
+                loadArchivedProducts();
+                loadArchivedEmployees();
+            }
         });
     });
 });
@@ -41,7 +47,7 @@ function openProductModal(productId = null) {
     if (productId) {
         title.textContent = 'Edit Product';
         // Load product data
-        fetch(`./api/get_product.php?id=${productId}`)
+        fetch(`./api/product_api/get_product.php?id=${productId}`)
             .then(response => response.json())
             .then(data => {
                 document.getElementById('product_id').value = data.id;
@@ -89,7 +95,7 @@ document.getElementById('productForm').addEventListener('submit', function(e) {
     
     const formData = new FormData(this);
     const productId = document.getElementById('product_id').value;
-    const url = productId ? './api/update_product.php' : './api/create_product.php';
+    const url = productId ? './api/product_api/update_product.php' : './api/product_api/create_product.php';
     
     fetch(url, {
         method: 'POST',
@@ -113,7 +119,7 @@ document.getElementById('productForm').addEventListener('submit', function(e) {
 
 // Load Products
 function loadProducts() {
-    fetch('./api/get_products.php')
+    fetch('./api/product_api/get_products.php')
         .then(response => response.json())
         .then(data => {
             const tbody = document.getElementById('productsTableBody');
@@ -148,8 +154,8 @@ function loadProducts() {
 }
 
 function deleteProduct(productId) {
-    if (confirm('Are you sure you want to delete this product?')) {
-        fetch('./api/delete_product.php', {
+    if (confirm('Move this product to archive? It can be restored or permanently deleted later.')) {
+        fetch('./api/product_api/delete_product.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -202,7 +208,7 @@ function openEmployeeModal(employeeId = null) {
     
     if (employeeId) {
         title.textContent = 'Edit Employee';
-        fetch(`./api/get_employee.php?id=${employeeId}`)
+        fetch(`./api/employee_api/get_employee.php?id=${employeeId}`)
             .then(response => response.json())
             .then(data => {
                 document.getElementById('employee_id').value = data.id;
@@ -232,7 +238,7 @@ document.getElementById('employeeForm').addEventListener('submit', function(e) {
     
     const formData = new FormData(this);
     const employeeId = document.getElementById('employee_id').value;
-    const url = employeeId ? './api/update_employee.php' : './api/create_employee.php';
+    const url = employeeId ? './api/employee_api/update_employee.php' : './api/employee_api/create_employee.php';
     
     fetch(url, {
         method: 'POST',
@@ -256,7 +262,7 @@ document.getElementById('employeeForm').addEventListener('submit', function(e) {
 
 // Load Employees
 function loadEmployees() {
-    fetch('./api/get_employees.php')
+    fetch('./api/employee_api/get_employees.php')
         .then(response => response.json())
         .then(data => {
             const tbody = document.getElementById('employeesTableBody');
@@ -287,8 +293,8 @@ function loadEmployees() {
 }
 
 function deleteEmployee(employeeId) {
-    if (confirm('Are you sure you want to delete this employee?')) {
-        fetch('./api/delete_employee.php', {
+    if (confirm('Move this employee to archive? They can be restored or permanently deleted later.')) {
+        fetch('./api/employee_api/delete_employee.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -333,7 +339,7 @@ function searchEmployees() {
 
 // Load Orders
 function loadOrders() {
-    fetch('./api/get_orders.php')
+    fetch('./api/order_api/get_orders.php')
         .then(response => response.json())
         .then(data => {
             const tbody = document.getElementById('ordersTableBody');
@@ -370,7 +376,7 @@ function viewOrder(orderId) {
 function updateOrderStatus(orderId) {
     const newStatus = prompt('Enter new status (pending/processing/completed/cancelled):');
     if (newStatus) {
-        fetch('./api/update_order_status.php', {
+        fetch('./api/order_api/update_order_status.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -480,5 +486,189 @@ window.onclick = function(event) {
     }
     if (event.target == employeeModal) {
         closeEmployeeModal();
+    }
+}
+
+// ============================================================
+// ARCHIVE TAB SWITCHER
+// ============================================================
+function switchArchiveTab(btn, tabId) {
+    document.querySelectorAll('.archive-tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.archive-panel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(tabId).classList.add('active');
+}
+
+// ============================================================
+// ARCHIVED PRODUCTS
+// ============================================================
+function loadArchivedProducts() {
+    fetch('./api/product_api/get_archived_products.php')
+        .then(response => response.json())
+        .then(data => {
+            const tbody = document.getElementById('archivedProductsTableBody');
+            tbody.innerHTML = '';
+
+            if (data.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:#aaa;padding:30px;">No archived products.</td></tr>';
+                return;
+            }
+
+            data.forEach(product => {
+                const archivedDate = product.archived_at
+                    ? new Date(product.archived_at).toLocaleDateString()
+                    : '—';
+                const row = `
+                    <tr>
+                        <td>${product.id}</td>
+                        <td>
+                            ${product.picture
+                                ? `<img src="./uploads/products/${product.picture}" alt="${product.name}" class="product-img">`
+                                : '<img src="./uploads/products/no-image.png" alt="No image" class="product-img">'}
+                        </td>
+                        <td>${product.name}</td>
+                        <td>${product.category}</td>
+                        <td>₱${parseFloat(product.price).toFixed(2)}</td>
+                        <td>${archivedDate}</td>
+                        <td class="action-buttons">
+                            <button class="action-btn restore" onclick="restoreProduct(${product.id})" title="Restore">
+                                <i class="fas fa-undo"></i>
+                            </button>
+                            <button class="action-btn delete" onclick="permanentlyDeleteProduct(${product.id})" title="Delete Permanently">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </td>
+                    </tr>
+                `;
+                tbody.innerHTML += row;
+            });
+        });
+}
+
+function restoreProduct(productId) {
+    if (confirm('Restore this product to the active list?')) {
+        fetch('./api/product_api/archive_product_action.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ id: productId, action: 'restore' })
+        })
+        .then(r => r.json())
+        .then(data => {
+            alert(data.message);
+            if (data.success) {
+                loadArchivedProducts();
+                loadProducts();
+            }
+        });
+    }
+}
+
+function permanentlyDeleteProduct(productId) {
+    if (confirm('⚠️ Permanently delete this product? This CANNOT be undone and the image will be removed.')) {
+        fetch('./api/product_api/archive_product_action.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ id: productId, action: 'delete_permanent' })
+        })
+        .then(r => r.json())
+        .then(data => {
+            alert(data.message);
+            if (data.success) loadArchivedProducts();
+        });
+    }
+}
+
+// ============================================================
+// ARCHIVED EMPLOYEES
+// ============================================================
+function loadArchivedEmployees() {
+    fetch('./api/employee_api/get_archived_employees.php')
+        .then(response => response.json())
+        .then(data => {
+            const tbody = document.getElementById('archivedEmployeesTableBody');
+            tbody.innerHTML = '';
+
+            if (data.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:#aaa;padding:30px;">No archived employees.</td></tr>';
+                return;
+            }
+
+            data.forEach(employee => {
+                const archivedDate = employee.archived_at
+                    ? new Date(employee.archived_at).toLocaleDateString()
+                    : '—';
+                const row = `
+                    <tr>
+                        <td>${employee.id}</td>
+                        <td>${employee.full_name}</td>
+                        <td>${employee.email}</td>
+                        <td>${employee.position}</td>
+                        <td>${archivedDate}</td>
+                        <td class="action-buttons">
+                            <button class="action-btn restore" onclick="restoreEmployee(${employee.id})" title="Restore">
+                                <i class="fas fa-undo"></i>
+                            </button>
+                            <button class="action-btn delete" onclick="permanentlyDeleteEmployee(${employee.id})" title="Delete Permanently">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </td>
+                    </tr>
+                `;
+                tbody.innerHTML += row;
+            });
+        });
+}
+
+function restoreEmployee(employeeId) {
+    if (confirm('Restore this employee to the active list?')) {
+        fetch('./api/employee_api/archived_employee_action.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ id: employeeId, action: 'restore' })
+        })
+        .then(r => r.json())
+        .then(data => {
+            alert(data.message);
+            if (data.success) {
+                loadArchivedEmployees();
+                loadEmployees();
+            }
+        });
+    }
+}
+
+function permanentlyDeleteEmployee(employeeId) {
+    if (confirm('⚠️ Permanently delete this employee? This CANNOT be undone.')) {
+        fetch('./api/employee_api/archived_employee_action.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ id: employeeId, action: 'delete_permanent' })
+        })
+        .then(r => r.json())
+        .then(data => {
+            alert(data.message);
+            if (data.success) loadArchivedEmployees();
+        });
+    }
+}
+
+// ============================================================
+// GENERIC TABLE SEARCH (used by archive tables)
+// ============================================================
+function searchTable(inputId, tableId) {
+    const filter = document.getElementById(inputId).value.toUpperCase();
+    const table  = document.getElementById(tableId);
+    const rows   = table.getElementsByTagName('tr');
+
+    for (let i = 1; i < rows.length; i++) {
+        const cells = rows[i].getElementsByTagName('td');
+        let found = false;
+        for (let j = 0; j < cells.length; j++) {
+            if (cells[j] && cells[j].textContent.toUpperCase().includes(filter)) {
+                found = true;
+                break;
+            }
+        }
+        rows[i].style.display = found ? '' : 'none';
     }
 }

@@ -1,3 +1,22 @@
+<!--<?php
+require_once './database/db.php';
+require_admin_login();
+
+// Get admin info
+$admin_id = $_SESSION['admin_id'];
+$admin_query = "SELECT * FROM admins WHERE id = $admin_id";
+$admin_result = $conn->query($admin_query);
+$admin = $admin_result->fetch_assoc();
+
+// Get statistics for dashboard
+$total_products = $conn->query("SELECT COUNT(*) as count FROM products")->fetch_assoc()['count'];
+$total_orders = $conn->query("SELECT COUNT(*) as count FROM orders")->fetch_assoc()['count'];
+$total_customers = $conn->query("SELECT COUNT(*) as count FROM users")->fetch_assoc()['count'];
+$total_employees = $conn->query("SELECT COUNT(*) as count FROM employees")->fetch_assoc()['count'];
+$total_revenue = $conn->query("SELECT SUM(total_amount) as total FROM orders WHERE status = 'completed'")->fetch_assoc()['total'] ?? 0;
+?>
+-->
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -38,7 +57,7 @@
 <body>
     <aside class="sidebar">
         <nav>
-            <a href="./admin.html" class="sidebar-header"><i class='bx bx-cupcake'></i>
+            <a href="#home" class="sidebar-header"><i class='bx bx-cupcake'></i>
                 <h1>Julie's Bakery</h1>
             </a>
 
@@ -52,6 +71,7 @@
                 <li><a href="#" class="nav-link" data-section="employees"><span class="material-symbols-outlined">person</span>Employees</a></li>
                 <li><a href="#" class="nav-link" data-section="orders"><span class="material-symbols-outlined">orders</span>Orders</a></li>
                 <li><a href="#" class="nav-link" data-section="customers"><span class="material-symbols-outlined">group</span>Customers</a></li>
+                <li><a href="#" class="nav-link" data-section="archive"><span class="material-symbols-outlined">archive</span>Archive</a></li>
 
                 <h2><span>Account</span>
                     <div class="menu-divider"></div>
@@ -294,6 +314,78 @@
                 </div>
             </section>
 
+            <!-- Archive Section -->
+            <section id="archive">
+                <div class="section-header">
+                    <h2>Archive</h2>
+                </div>
+
+                <!-- Archive Tabs -->
+                <div class="archive-tabs">
+                    <button class="archive-tab active" data-tab="archive-products" onclick="switchArchiveTab(this, 'archive-products')">
+                        <i class="fas fa-box"></i> Products
+                    </button>
+                    <button class="archive-tab" data-tab="archive-employees" onclick="switchArchiveTab(this, 'archive-employees')">
+                        <i class="fas fa-user"></i> Employees
+                    </button>
+                </div>
+
+                <!-- Archived Products Table -->
+                <div id="archive-products" class="archive-panel active">
+                    <div class="data-table-container" style="margin-top:20px;">
+                        <div class="table-controls">
+                            <div class="search-box">
+                                <i class="fas fa-search"></i>
+                                <input type="text" id="archivedProductSearch" placeholder="Search archived products..." onkeyup="searchTable('archivedProductSearch','archivedProductsTable')">
+                            </div>
+                        </div>
+                        <table class="data-table" id="archivedProductsTable">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Image</th>
+                                    <th>Name</th>
+                                    <th>Category</th>
+                                    <th>Price</th>
+                                    <th>Archived On</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="archivedProductsTableBody">
+                                <!-- Loaded via AJAX -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Archived Employees Table -->
+                <div id="archive-employees" class="archive-panel">
+                    <div class="data-table-container" style="margin-top:20px;">
+                        <div class="table-controls">
+                            <div class="search-box">
+                                <i class="fas fa-search"></i>
+                                <input type="text" id="archivedEmployeeSearch" placeholder="Search archived employees..." onkeyup="searchTable('archivedEmployeeSearch','archivedEmployeesTable')">
+                            </div>
+                        </div>
+                        <table class="data-table" id="archivedEmployeesTable">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Position</th>
+                                    <th>Archived On</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="archivedEmployeesTableBody">
+                                <!-- Loaded via AJAX -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
             <!-- Profile Section -->
             <section id="profile">
                 <div class="section-header">
@@ -456,3 +548,4 @@
 
     <script src="./js/admin-dashboard.js?v=<?php echo time(); ?>"></script>
 </body>
+</html>
