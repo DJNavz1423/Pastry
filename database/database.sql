@@ -1,3 +1,13 @@
+-- Users Table (Updated with custom ID)
+CREATE TABLE users (
+  id VARCHAR(10) PRIMARY KEY,
+  full_name VARCHAR(100) NOT NULL,
+  email VARCHAR(100) UNIQUE NOT NULL,
+  phone VARCHAR(50) UNIQUE NOT NULL,
+  password VARCHAR(255) NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
 -- Admin Table
 CREATE TABLE admins (
   id INT PRIMARY KEY AUTO_INCREMENT,
@@ -8,9 +18,9 @@ CREATE TABLE admins (
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Products Table
+-- Products Table (Updated with custom ID)
 CREATE TABLE products (
-  id INT PRIMARY KEY AUTO_INCREMENT,
+  id VARCHAR(10) PRIMARY KEY,
   name VARCHAR(100) NOT NULL,
   description TEXT,
   price DECIMAL(10, 2) NOT NULL,
@@ -23,9 +33,9 @@ CREATE TABLE products (
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
--- Employees Table
+-- Employees Table (Updated with custom ID)
 CREATE TABLE employees (
-  id INT PRIMARY KEY AUTO_INCREMENT,
+  id VARCHAR(10) PRIMARY KEY,
   full_name VARCHAR(100) NOT NULL,
   email VARCHAR(100) UNIQUE NOT NULL,
   phone VARCHAR(50) NOT NULL,
@@ -38,10 +48,10 @@ CREATE TABLE employees (
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Orders Table
+-- Orders Table (Updated with custom ID)
 CREATE TABLE orders (
-  id INT PRIMARY KEY AUTO_INCREMENT,
-  user_id INT NOT NULL,
+  id VARCHAR(10) PRIMARY KEY,
+  user_id VARCHAR(10) NOT NULL,
   total_amount DECIMAL(10, 2) NOT NULL,
   status ENUM('pending', 'processing', 'completed', 'cancelled') DEFAULT 'pending',
   payment_method VARCHAR(50),
@@ -54,8 +64,8 @@ CREATE TABLE orders (
 -- Order Items Table
 CREATE TABLE order_items (
   id INT PRIMARY KEY AUTO_INCREMENT,
-  order_id INT NOT NULL,
-  product_id INT NOT NULL,
+  order_id VARCHAR(10) NOT NULL,
+  product_id VARCHAR(10) NOT NULL,
   quantity INT NOT NULL,
   price DECIMAL(10, 2) NOT NULL,
   FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE,

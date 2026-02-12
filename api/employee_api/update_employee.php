@@ -1,5 +1,5 @@
 <?php
-require_once '../Pastry/database/db.php';
+require_once '../../database/db.php';
 require_admin_login();
 
 header('Content-Type: application/json');

@@ -1,4 +1,4 @@
-<!--<?php
+<?php
 require_once './database/db.php';
 require_admin_login();
 
@@ -15,7 +15,7 @@ $total_customers = $conn->query("SELECT COUNT(*) as count FROM users")->fetch_as
 $total_employees = $conn->query("SELECT COUNT(*) as count FROM employees")->fetch_assoc()['count'];
 $total_revenue = $conn->query("SELECT SUM(total_amount) as total FROM orders WHERE status = 'completed'")->fetch_assoc()['total'] ?? 0;
 ?>
--->
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -546,6 +546,6 @@ $total_revenue = $conn->query("SELECT SUM(total_amount) as total FROM orders WHE
         </div>
     </div>
 
-    <script src="./js/admin-dashboard.js?v=<?php echo time(); ?>"></script>
+    <script src="./js/admin-dashboard.js"></script>
 </body>
 </html>

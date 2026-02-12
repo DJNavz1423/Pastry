@@ -1,4 +1,3 @@
-<!--
 <?php
 session_start();
 
@@ -13,7 +12,6 @@ if (isset($_GET['error'])) {
     $error = htmlspecialchars($_GET['error']);
 }
 ?>
--->
 
 <!DOCTYPE html>
 <html lang="en">

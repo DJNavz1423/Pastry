@@ -1,4 +1,4 @@
-<!--<?php
+<?php
 session_start();
 
 if(!isset($_SESSION['email'])){
@@ -33,7 +33,7 @@ if($result->num_rows > 0){
 
 $stmt->close();
 $conn->close();
-?>-->
+?>
 
 <!DOCTYPE html>
 <html lang="en">

@@ -1,5 +1,5 @@
 <?php
-require_once '../Pastry/database/db.php';
+require_once '../../database/db.php';
 require_admin_login();
 
 header('Content-Type: application/json');
@@ -20,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
     // Handle file upload
     if (isset($_FILES['product_picture']) && $_FILES['product_picture']['error'] === 0) {
-        $upload_dir = '../uploads/products/';
+        $upload_dir = '../../uploads/products/';
         
         // Create directory if it doesn't exist
         if (!file_exists($upload_dir)) {

@@ -1,5 +1,5 @@
 <?php
-require_once '../Pastry/database/db.php';
+require_once '../../database/db.php';
 require_admin_login();
 
 header('Content-Type: application/json');
@@ -28,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($conn->query($sql) === TRUE && $conn->affected_rows > 0) {
             // Remove image file permanently
             if ($row && $row['picture']) {
-                $file_path = '../uploads/products/' . $row['picture'];
+                $file_path = '../../uploads/products/' . $row['picture'];
                 if (file_exists($file_path)) {
                     unlink($file_path);
                 }

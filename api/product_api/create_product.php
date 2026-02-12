@@ -1,5 +1,5 @@
 <?php
-require_once '../Pastry/database/db.php';
+require_once '../../database/db.php';
 require_admin_login();
 
 header('Content-Type: application/json');
@@ -7,6 +7,9 @@ header('Content-Type: application/json');
 $response = ['success' => false, 'message' => ''];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Generate custom ID for product (P + 4 digits)
+    $id = generate_custom_id('P', 'products');
+    
     $name = sanitize_input($_POST['product_name']);
     $description = sanitize_input($_POST['product_description']);
     $category = sanitize_input($_POST['product_category']);
@@ -16,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Handle file upload
     $picture = '';
     if (isset($_FILES['product_picture']) && $_FILES['product_picture']['error'] === 0) {
-        $upload_dir = '../uploads/products/';
+        $upload_dir = '../../uploads/products/';
         
         // Create directory if it doesn't exist
         if (!file_exists($upload_dir)) {
@@ -34,12 +37,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
     
-    $sql = "INSERT INTO products (name, description, category, price, quantity, picture) 
-            VALUES ('$name', '$description', '$category', $price, $quantity, '$picture')";
+    $sql = "INSERT INTO products (id, name, description, category, price, quantity, picture) 
+            VALUES ('$id', '$name', '$description', '$category', $price, $quantity, '$picture')";
     
     if ($conn->query($sql) === TRUE) {
         $response['success'] = true;
-        $response['message'] = 'Product added successfully!';
+        $response['message'] = 'Product added successfully with ID: ' . $id;
+        $response['id'] = $id;
     } else {
         $response['message'] = 'Error: ' . $conn->error;
     }

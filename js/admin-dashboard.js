@@ -421,7 +421,7 @@ function searchOrders() {
 
 // Load Customers
 function loadCustomers() {
-    fetch('./api/get_customers.php')
+    fetch('../Pastry/api/get_customers.php')
         .then(response => response.json())
         .then(data => {
             const tbody = document.getElementById('customersTableBody');
