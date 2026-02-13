@@ -7,12 +7,12 @@ header('Content-Type: application/json');
 $response = ['success' => false, 'message' => ''];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $data   = json_decode(file_get_contents('php://input'), true);
-    $id     = intval($data['id']);
+    $data = json_decode(file_get_contents('php://input'), true);
+    $id = sanitize_input($data['id']); // String like "E1234"
     $action = isset($data['action']) ? $data['action'] : '';
 
     if ($action === 'restore') {
-        $sql = "UPDATE employees SET is_archived = 0, archived_at = NULL WHERE id = $id AND is_archived = 1";
+        $sql = "UPDATE employees SET is_archived = 0, archived_at = NULL WHERE id = '$id' AND is_archived = 1";
         if ($conn->query($sql) === TRUE && $conn->affected_rows > 0) {
             $response['success'] = true;
             $response['message'] = 'Employee restored successfully.';
@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
     } elseif ($action === 'delete_permanent') {
-        $sql = "DELETE FROM employees WHERE id = $id AND is_archived = 1";
+        $sql = "DELETE FROM employees WHERE id = '$id' AND is_archived = 1";
         if ($conn->query($sql) === TRUE && $conn->affected_rows > 0) {
             $response['success'] = true;
             $response['message'] = 'Employee permanently deleted.';

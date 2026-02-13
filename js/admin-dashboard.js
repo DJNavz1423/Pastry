@@ -139,10 +139,10 @@ function loadProducts() {
                         <td>₱${parseFloat(product.price).toFixed(2)}</td>
                         <td>${product.quantity}</td>
                         <td class="action-buttons">
-                            <button class="action-btn edit" onclick="openProductModal(${product.id})" title="Edit">
+                            <button class="action-btn edit" onclick="openProductModal('${product.id}')" title="Edit">
                                 <i class="fas fa-edit"></i>
                             </button>
-                            <button class="action-btn delete" onclick="deleteProduct(${product.id})" title="Delete">
+                            <button class="action-btn delete" onclick="deleteProduct('${product.id}')" title="Delete">
                                 <i class="fas fa-trash"></i>
                             </button>
                         </td>
@@ -278,10 +278,10 @@ function loadEmployees() {
                         <td>${employee.position}</td>
                         <td><span class="status-badge ${employee.status}">${employee.status}</span></td>
                         <td class="action-buttons">
-                            <button class="action-btn edit" onclick="openEmployeeModal(${employee.id})" title="Edit">
+                            <button class="action-btn edit" onclick="openEmployeeModal('${employee.id}')" title="Edit">
                                 <i class="fas fa-edit"></i>
                             </button>
-                            <button class="action-btn delete" onclick="deleteEmployee(${employee.id})" title="Delete">
+                            <button class="action-btn delete" onclick="deleteEmployee('${employee.id}')" title="Delete">
                                 <i class="fas fa-trash"></i>
                             </button>
                         </td>
@@ -421,7 +421,7 @@ function searchOrders() {
 
 // Load Customers
 function loadCustomers() {
-    fetch('../Pastry/api/get_customers.php')
+    fetch('./api/get_customers.php')
         .then(response => response.json())
         .then(data => {
             const tbody = document.getElementById('customersTableBody');
@@ -531,10 +531,10 @@ function loadArchivedProducts() {
                         <td>₱${parseFloat(product.price).toFixed(2)}</td>
                         <td>${archivedDate}</td>
                         <td class="action-buttons">
-                            <button class="action-btn restore" onclick="restoreProduct(${product.id})" title="Restore">
+                            <button class="action-btn restore" onclick="restoreProduct('${product.id}')" title="Restore">
                                 <i class="fas fa-undo"></i>
                             </button>
-                            <button class="action-btn delete" onclick="permanentlyDeleteProduct(${product.id})" title="Delete Permanently">
+                            <button class="action-btn delete" onclick="permanentlyDeleteProduct('${product.id}')" title="Delete Permanently">
                                 <i class="fas fa-trash-alt"></i>
                             </button>
                         </td>
@@ -605,10 +605,10 @@ function loadArchivedEmployees() {
                         <td>${employee.position}</td>
                         <td>${archivedDate}</td>
                         <td class="action-buttons">
-                            <button class="action-btn restore" onclick="restoreEmployee(${employee.id})" title="Restore">
+                            <button class="action-btn restore" onclick="restoreEmployee('${employee.id}')" title="Restore">
                                 <i class="fas fa-undo"></i>
                             </button>
-                            <button class="action-btn delete" onclick="permanentlyDeleteEmployee(${employee.id})" title="Delete Permanently">
+                            <button class="action-btn delete" onclick="permanentlyDeleteEmployee('${employee.id}')" title="Delete Permanently">
                                 <i class="fas fa-trash-alt"></i>
                             </button>
                         </td>
@@ -621,7 +621,7 @@ function loadArchivedEmployees() {
 
 function restoreEmployee(employeeId) {
     if (confirm('Restore this employee to the active list?')) {
-        fetch('./api/employee_api/archived_employee_action.php', {
+        fetch('./api/employee_api/archive_employee_action.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ id: employeeId, action: 'restore' })
@@ -639,7 +639,7 @@ function restoreEmployee(employeeId) {
 
 function permanentlyDeleteEmployee(employeeId) {
     if (confirm('⚠️ Permanently delete this employee? This CANNOT be undone.')) {
-        fetch('./api/employee_api/archived_employee_action.php', {
+        fetch('./api/employee_api/archive_employee_action.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ id: employeeId, action: 'delete_permanent' })

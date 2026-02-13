@@ -9,10 +9,10 @@ $admin_result = $conn->query($admin_query);
 $admin = $admin_result->fetch_assoc();
 
 // Get statistics for dashboard
-$total_products = $conn->query("SELECT COUNT(*) as count FROM products")->fetch_assoc()['count'];
+$total_products = $conn->query("SELECT COUNT(*) as count FROM products WHERE is_archived = 0")->fetch_assoc()['count'];
 $total_orders = $conn->query("SELECT COUNT(*) as count FROM orders")->fetch_assoc()['count'];
 $total_customers = $conn->query("SELECT COUNT(*) as count FROM users")->fetch_assoc()['count'];
-$total_employees = $conn->query("SELECT COUNT(*) as count FROM employees")->fetch_assoc()['count'];
+$total_employees = $conn->query("SELECT COUNT(*) as count FROM employees WHERE is_archived = 0")->fetch_assoc()['count'];
 $total_revenue = $conn->query("SELECT SUM(total_amount) as total FROM orders WHERE status = 'completed'")->fetch_assoc()['total'] ?? 0;
 ?>
 

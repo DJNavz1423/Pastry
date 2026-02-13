@@ -7,7 +7,7 @@ header('Content-Type: application/json');
 $response = ['success' => false, 'message' => ''];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $id = intval($_POST['product_id']);
+    $id = sanitize_input($_POST['product_id']); // ID stays the same
     $name = sanitize_input($_POST['product_name']);
     $description = sanitize_input($_POST['product_description']);
     $category = sanitize_input($_POST['product_category']);
@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $quantity = intval($_POST['product_quantity']);
     
     // Get current product data
-    $current_product = $conn->query("SELECT picture FROM products WHERE id = $id")->fetch_assoc();
+    $current_product = $conn->query("SELECT picture FROM products WHERE id = '$id'")->fetch_assoc();
     $picture = $current_product['picture'];
     
     // Handle file upload
@@ -46,7 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             price = $price,
             quantity = $quantity,
             picture = '$picture'
-            WHERE id = $id";
+            WHERE id = '$id'";
     
     if ($conn->query($sql) === TRUE) {
         $response['success'] = true;

@@ -8,11 +8,11 @@ $response = ['success' => false, 'message' => ''];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $data = json_decode(file_get_contents('php://input'), true);
-    $id     = intval($data['id']);
+    $id = sanitize_input($data['id']); // String like "P1234"
     $action = isset($data['action']) ? $data['action'] : '';
 
     if ($action === 'restore') {
-        $sql = "UPDATE products SET is_archived = 0, archived_at = NULL WHERE id = $id AND is_archived = 1";
+        $sql = "UPDATE products SET is_archived = 0, archived_at = NULL WHERE id = '$id' AND is_archived = 1";
         if ($conn->query($sql) === TRUE && $conn->affected_rows > 0) {
             $response['success'] = true;
             $response['message'] = 'Product restored successfully.';
@@ -22,9 +22,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     } elseif ($action === 'delete_permanent') {
         // Fetch picture filename before deleting
-        $row = $conn->query("SELECT picture FROM products WHERE id = $id AND is_archived = 1")->fetch_assoc();
+        $row = $conn->query("SELECT picture FROM products WHERE id = '$id' AND is_archived = 1")->fetch_assoc();
 
-        $sql = "DELETE FROM products WHERE id = $id AND is_archived = 1";
+        $sql = "DELETE FROM products WHERE id = '$id' AND is_archived = 1";
         if ($conn->query($sql) === TRUE && $conn->affected_rows > 0) {
             // Remove image file permanently
             if ($row && $row['picture']) {

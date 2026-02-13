@@ -20,20 +20,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     exit;
   }
 
+  // Generate custom ID for user (U + 4 digits)
+  $userId = generate_custom_id('U', 'users');
+
   $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
   $stmt = $conn->prepare(
-    "INSERT INTO users (full_name, email, phone, password) VALUES (?, ?, ?, ?)"
+    "INSERT INTO users (id, full_name, email, phone, password) VALUES (?, ?, ?, ?, ?)"
   );
 
   if (!$stmt) {
     die("Prepare Failed: " . $conn->error);
   }
 
-  $stmt->bind_param("ssss", $fullName, $email, $phone, $hashedPassword);
+  $stmt->bind_param("sssss", $userId, $fullName, $email, $phone, $hashedPassword);
 
   if ($stmt->execute()) {
     $_SESSION['email'] = $email;
+    $_SESSION['user_id'] = $userId;
     header("Location: ../login_page.html");
     exit;
   } else {
@@ -42,3 +46,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
   $stmt->close();
 }
+?>

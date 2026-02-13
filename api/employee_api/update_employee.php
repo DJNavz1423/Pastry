@@ -7,7 +7,7 @@ header('Content-Type: application/json');
 $response = ['success' => false, 'message' => ''];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $id = intval($_POST['employee_id']);
+    $id = sanitize_input($_POST['employee_id']); // ID stays the same
     $full_name = sanitize_input($_POST['employee_name']);
     $email = sanitize_input($_POST['employee_email']);
     $phone = sanitize_input($_POST['employee_phone']);
@@ -24,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             salary = $salary,
             hire_date = '$hire_date',
             status = '$status'
-            WHERE id = $id";
+            WHERE id = '$id'";
     
     if ($conn->query($sql) === TRUE) {
         $response['success'] = true;
