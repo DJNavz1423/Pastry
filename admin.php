@@ -7,6 +7,7 @@ $admin_id = $_SESSION['admin_id'];
 $admin_query = "SELECT * FROM admins WHERE id = $admin_id";
 $admin_result = $conn->query($admin_query);
 $admin = $admin_result->fetch_assoc();
+$is_super_admin = ($admin['role'] === 'super_admin');
 
 // Get statistics for dashboard
 $total_products = $conn->query("SELECT COUNT(*) as count FROM products WHERE is_archived = 0")->fetch_assoc()['count'];
@@ -70,14 +71,18 @@ $total_revenue = $conn->query("SELECT SUM(total_amount) as total FROM orders WHE
                 <li><a href="#" class="nav-link" data-section="products-section"><span class="material-symbols-outlined">inventory</span>Products</a></li>
                 <li><a href="#" class="nav-link" data-section="employees"><span class="material-symbols-outlined">person</span>Employees</a></li>
                 <li><a href="#" class="nav-link" data-section="orders"><span class="material-symbols-outlined">orders</span>Orders</a></li>
+                <?php if ($is_super_admin): ?>
                 <li><a href="#" class="nav-link" data-section="customers"><span class="material-symbols-outlined">group</span>Customers</a></li>
                 <li><a href="#" class="nav-link" data-section="archive"><span class="material-symbols-outlined">archive</span>Archive</a></li>
+                <?php endif; ?>
 
                 <h2><span>Account</span>
                     <div class="menu-divider"></div>
                 </h2>
                 <li><a href="#" class="nav-link" data-section="profile"><span class="material-symbols-outlined">account_circle</span>Profile</a></li>
+                <?php if ($is_super_admin): ?>
                 <li><a href="#" class="nav-link" data-section="settings"><span class="material-symbols-outlined">settings</span>Settings</a></li>
+                <?php endif; ?>
                 <li>
                     <form action="./formHandlers/logout_handler.php" method="post"><button id="logout_button"><a href="./formHandlers/logout_handler.php"><span class="material-symbols-outlined">logout</span>Logout</a></button></form>
                 </li>
@@ -328,6 +333,9 @@ $total_revenue = $conn->query("SELECT SUM(total_amount) as total FROM orders WHE
                     <button class="archive-tab" data-tab="archive-employees" onclick="switchArchiveTab(this, 'archive-employees')">
                         <i class="fas fa-user"></i> Employees
                     </button>
+                    <button class="archive-tab" data-tab="archive-customers" onclick="switchArchiveTab(this, 'archive-customers')">
+                        <i class="fas fa-users"></i> Customers
+                    </button>
                 </div>
 
                 <!-- Archived Products Table -->
@@ -379,6 +387,33 @@ $total_revenue = $conn->query("SELECT SUM(total_amount) as total FROM orders WHE
                                 </tr>
                             </thead>
                             <tbody id="archivedEmployeesTableBody">
+                                <!-- Loaded via AJAX -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Archived Customers Table -->
+                <div id="archive-customers" class="archive-panel">
+                    <div class="data-table-container" style="margin-top:20px;">
+                        <div class="table-controls">
+                            <div class="search-box">
+                                <i class="fas fa-search"></i>
+                                <input type="text" id="archivedCustomerSearch" placeholder="Search archived customers..." onkeyup="searchTable('archivedCustomerSearch','archivedCustomersTable')">
+                            </div>
+                        </div>
+                        <table class="data-table" id="archivedCustomersTable">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Phone</th>
+                                    <th>Archived On</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="archivedCustomersTableBody">
                                 <!-- Loaded via AJAX -->
                             </tbody>
                         </table>
@@ -447,14 +482,15 @@ $total_revenue = $conn->query("SELECT SUM(total_amount) as total FROM orders WHE
 
                     <div class="form-group">
                         <label for="product_category">Category *</label>
-                        <select id="product_category" name="product_category" required>
+                        <select id="product_category" name="product_category" required onchange="checkAddCategory(this)">
                             <option value="">Select Category</option>
                             <?php
-                            $categories = $conn->query("SELECT * FROM categories");
+                            $categories = $conn->query("SELECT * FROM categories ORDER BY name");
                             while($cat = $categories->fetch_assoc()) {
                                 echo "<option value='{$cat['name']}'>{$cat['name']}</option>";
                             }
                             ?>
+                            <option value="__ADD_NEW__" style="color: var(--red); font-weight: 600;">+ Add New Category</option>
                         </select>
                     </div>
 
@@ -537,6 +573,18 @@ $total_revenue = $conn->query("SELECT SUM(total_amount) as total FROM orders WHE
                             <option value="inactive">Inactive</option>
                         </select>
                     </div>
+
+                    <?php if ($is_super_admin): ?>
+                    <div class="form-group">
+                        <label style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
+                            <input type="checkbox" id="employee_make_admin" name="employee_make_admin" style="width: auto; cursor: pointer;">
+                            <span>Make this employee a Sub Admin (limited dashboard access)</span>
+                        </label>
+                        <small style="color: var(--gray-light); display: block; margin-top: 5px;">
+                            Sub admins can access: Dashboard, Products, Orders, and Employees only.
+                        </small>
+                    </div>
+                    <?php endif; ?>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" onclick="closeEmployeeModal()">Cancel</button>
@@ -546,6 +594,71 @@ $total_revenue = $conn->query("SELECT SUM(total_amount) as total FROM orders WHE
         </div>
     </div>
 
+    <!-- Category Modal -->
+    <div id="categoryModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Add New Category</h2>
+                <button class="close-modal" onclick="closeCategoryModal()">&times;</button>
+            </div>
+            <form id="categoryForm">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="category_name">Category Name *</label>
+                        <input type="text" id="category_name" name="category_name" required placeholder="e.g., Cupcakes">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="category_description">Description</label>
+                        <textarea id="category_description" name="category_description" placeholder="Optional description for this category"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="closeCategoryModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Add Category</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Customer Edit Modal -->
+    <div id="customerModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="customerModalTitle">Edit Customer</h2>
+                <button class="close-modal" onclick="closeCustomerModal()">&times;</button>
+            </div>
+            <form id="customerForm">
+                <div class="modal-body">
+                    <input type="hidden" id="customer_id" name="customer_id">
+                    
+                    <div class="form-group">
+                        <label for="customer_name">Full Name *</label>
+                        <input type="text" id="customer_name" name="customer_name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="customer_email">Email *</label>
+                        <input type="email" id="customer_email" name="customer_email" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="customer_phone">Phone *</label>
+                        <input type="text" id="customer_phone" name="customer_phone" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="closeCustomerModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Update Customer</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Pass PHP variable to JavaScript
+        const isSuperAdmin = <?php echo $is_super_admin ? 'true' : 'false'; ?>;
+    </script>
     <script src="./js/admin-dashboard.js"></script>
 </body>
 </html>

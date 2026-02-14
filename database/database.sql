@@ -1,20 +1,23 @@
--- Users Table (Updated with custom ID)
+-- Users Table (Updated with custom ID and archive)
 CREATE TABLE users (
   id VARCHAR(10) PRIMARY KEY,
   full_name VARCHAR(100) NOT NULL,
   email VARCHAR(100) UNIQUE NOT NULL,
   phone VARCHAR(50) UNIQUE NOT NULL,
   password VARCHAR(255) NOT NULL,
+  is_archived TINYINT(1) NOT NULL DEFAULT 0,
+  archived_at TIMESTAMP NULL DEFAULT NULL,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Admin Table
+-- Admin Table (Updated with role system)
 CREATE TABLE admins (
   id INT PRIMARY KEY AUTO_INCREMENT,
   username VARCHAR(50) UNIQUE NOT NULL,
   email VARCHAR(100) UNIQUE NOT NULL,
   password VARCHAR(255) NOT NULL,
   full_name VARCHAR(100) NOT NULL,
+  role ENUM('super_admin', 'sub_admin') DEFAULT 'sub_admin',
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -89,8 +92,8 @@ INSERT INTO categories (name, description) VALUES
 ('Desserts', 'Special desserts');
 
 -- Insert a default admin (password: admin123 - hashed with password_hash)
-INSERT INTO admins (username, email, password, full_name) VALUES
-('admin', 'admin@juliesbakery.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'Administrator');
+INSERT INTO admins (username, email, password, full_name, role) VALUES
+('admin', 'admin@juliesbakery.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'Administrator', 'super_admin');
 
 -- ============================================================
 -- ARCHIVE SYSTEM
@@ -104,4 +107,13 @@ INSERT INTO admins (username, email, password, full_name) VALUES
 -- ALTER TABLE employees
 --   ADD COLUMN is_archived TINYINT(1) NOT NULL DEFAULT 0,
 --   ADD COLUMN archived_at TIMESTAMP NULL DEFAULT NULL;
+
+-- ALTER TABLE users
+--   ADD COLUMN is_archived TINYINT(1) NOT NULL DEFAULT 0,
+--   ADD COLUMN archived_at TIMESTAMP NULL DEFAULT NULL;
+
+-- ALTER TABLE admins
+--   ADD COLUMN role ENUM('super_admin', 'sub_admin') DEFAULT 'sub_admin';
+--
+-- UPDATE admins SET role = 'super_admin' WHERE username = 'admin';
 -- ============================================================

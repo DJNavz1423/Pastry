@@ -4,7 +4,9 @@ document.addEventListener('DOMContentLoaded', function() {
     loadProducts();
     loadEmployees();
     loadOrders();
-    loadCustomers();
+    if (typeof isSuperAdmin !== 'undefined' && isSuperAdmin) {
+        loadCustomers();
+    }
 
     // Navigation click handlers
     const navLinks = document.querySelectorAll('.nav-link');
@@ -30,10 +32,20 @@ document.addEventListener('DOMContentLoaded', function() {
             if (sectionId === 'archive') {
                 loadArchivedProducts();
                 loadArchivedEmployees();
+                loadArchivedCustomers();
             }
         });
     });
 });
+
+// Category dropdown check
+function checkAddCategory(select) {
+    if (select.value === '__ADD_NEW__') {
+        openCategoryModal();
+        // Reset to empty so user must select after adding
+        select.value = '';
+    }
+}
 
 // Product Modal Functions
 function openProductModal(productId = null) {
@@ -238,6 +250,13 @@ document.getElementById('employeeForm').addEventListener('submit', function(e) {
     
     const formData = new FormData(this);
     const employeeId = document.getElementById('employee_id').value;
+    
+    // Add make_admin checkbox value
+    const makeAdminCheckbox = document.getElementById('employee_make_admin');
+    if (makeAdminCheckbox) {
+        formData.append('employee_make_admin', makeAdminCheckbox.checked ? 'true' : 'false');
+    }
+    
     const url = employeeId ? './api/employee_api/update_employee.php' : './api/employee_api/create_employee.php';
     
     fetch(url, {
@@ -421,7 +440,7 @@ function searchOrders() {
 
 // Load Customers
 function loadCustomers() {
-    fetch('./api/get_customers.php')
+    fetch('./api/customer_api/get_customers.php')
         .then(response => response.json())
         .then(data => {
             const tbody = document.getElementById('customersTableBody');
@@ -436,8 +455,11 @@ function loadCustomers() {
                         <td>${customer.phone}</td>
                         <td>${new Date(customer.created_at).toLocaleDateString()}</td>
                         <td class="action-buttons">
-                            <button class="action-btn view" onclick="viewCustomer(${customer.id})" title="View Details">
-                                <i class="fas fa-eye"></i>
+                            <button class="action-btn edit" onclick="openCustomerModal('${customer.id}')" title="Edit">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="action-btn delete" onclick="deleteCustomer('${customer.id}')" title="Delete">
+                                <i class="fas fa-trash"></i>
                             </button>
                         </td>
                     </tr>
@@ -447,10 +469,74 @@ function loadCustomers() {
         });
 }
 
-function viewCustomer(customerId) {
-    alert('View customer details for customer #' + customerId);
-    // Implement customer details view
+function openCustomerModal(customerId) {
+    const modal = document.getElementById('customerModal');
+    const form = document.getElementById('customerForm');
+    
+    form.reset();
+    
+    fetch(`./api/customer_api/get_customer.php?id=${customerId}`)
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('customer_id').value = data.id;
+            document.getElementById('customer_name').value = data.full_name;
+            document.getElementById('customer_email').value = data.email;
+            document.getElementById('customer_phone').value = data.phone;
+        });
+    
+    modal.classList.add('active');
 }
+
+function closeCustomerModal() {
+    document.getElementById('customerModal').classList.remove('active');
+}
+
+function deleteCustomer(customerId) {
+    if (confirm('Move this customer to archive? They can be restored or permanently deleted later.')) {
+        fetch('./api/customer_api/delete_customer.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ id: customerId })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert(data.message);
+                loadCustomers();
+            } else {
+                alert('Error: ' + data.message);
+            }
+        });
+    }
+}
+
+// Customer Form Submission
+document.getElementById('customerForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const formData = new FormData(this);
+    
+    fetch('./api/customer_api/update_customer.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert(data.message);
+            closeCustomerModal();
+            loadCustomers();
+        } else {
+            alert('Error: ' + data.message);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('An error occurred. Please try again.');
+    });
+});
 
 function searchCustomers() {
     const input = document.getElementById('customerSearch');
@@ -480,12 +566,168 @@ function searchCustomers() {
 window.onclick = function(event) {
     const productModal = document.getElementById('productModal');
     const employeeModal = document.getElementById('employeeModal');
+    const categoryModal = document.getElementById('categoryModal');
+    const customerModal = document.getElementById('customerModal');
     
     if (event.target == productModal) {
         closeProductModal();
     }
     if (event.target == employeeModal) {
         closeEmployeeModal();
+    }
+    if (event.target == categoryModal) {
+        closeCategoryModal();
+    }
+    if (event.target == customerModal) {
+        closeCustomerModal();
+    }
+}
+
+// ============================================================
+// CATEGORY MODAL
+// ============================================================
+function openCategoryModal() {
+    const modal = document.getElementById('categoryModal');
+    document.getElementById('categoryForm').reset();
+    modal.classList.add('active');
+}
+
+function closeCategoryModal() {
+    document.getElementById('categoryModal').classList.remove('active');
+}
+
+// Category Form Submission
+document.getElementById('categoryForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const formData = new FormData(this);
+    
+    fetch('./api/product_api/create_category.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert(data.message);
+            closeCategoryModal();
+            // Refresh the category dropdown
+            refreshCategoryDropdown(data.category_name);
+        } else {
+            alert('Error: ' + data.message);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('An error occurred. Please try again.');
+    });
+});
+
+function refreshCategoryDropdown(selectCategoryName = null) {
+    fetch('./api/product_api/get_categories.php')
+        .then(response => response.json())
+        .then(categories => {
+            const select = document.getElementById('product_category');
+            const currentValue = select.value;
+            
+            // Clear and rebuild options
+            select.innerHTML = '<option value="">Select Category</option>';
+            
+            categories.forEach(cat => {
+                const option = document.createElement('option');
+                option.value = cat.name;
+                option.textContent = cat.name;
+                select.appendChild(option);
+            });
+            
+            // Add "Add New Category" option at the end
+            const addOption = document.createElement('option');
+            addOption.value = '__ADD_NEW__';
+            addOption.textContent = '+ Add New Category';
+            addOption.style.color = 'var(--red)';
+            addOption.style.fontWeight = '600';
+            select.appendChild(addOption);
+            
+            // Select the newly added category or restore previous
+            if (selectCategoryName) {
+                select.value = selectCategoryName;
+            } else if (currentValue && currentValue !== '__ADD_NEW__') {
+                select.value = currentValue;
+            }
+        });
+}
+
+// ============================================================
+// ARCHIVED CUSTOMERS
+// ============================================================
+function loadArchivedCustomers() {
+    fetch('./api/customer_api/get_archived_customer.php')
+        .then(response => response.json())
+        .then(data => {
+            const tbody = document.getElementById('archivedCustomersTableBody');
+            tbody.innerHTML = '';
+
+            if (data.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:#aaa;padding:30px;">No archived customers.</td></tr>';
+                return;
+            }
+
+            data.forEach(customer => {
+                const archivedDate = customer.archived_at
+                    ? new Date(customer.archived_at).toLocaleDateString()
+                    : '—';
+                const row = `
+                    <tr>
+                        <td>${customer.id}</td>
+                        <td>${customer.full_name}</td>
+                        <td>${customer.email}</td>
+                        <td>${customer.phone}</td>
+                        <td>${archivedDate}</td>
+                        <td class="action-buttons">
+                            <button class="action-btn restore" onclick="restoreCustomer('${customer.id}')" title="Restore">
+                                <i class="fas fa-undo"></i>
+                            </button>
+                            <button class="action-btn delete" onclick="permanentlyDeleteCustomer('${customer.id}')" title="Delete Permanently">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </td>
+                    </tr>
+                `;
+                tbody.innerHTML += row;
+            });
+        });
+}
+
+function restoreCustomer(customerId) {
+    if (confirm('Restore this customer to the active list?')) {
+        fetch('./api/customer_api/archived_customer_action.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ id: customerId, action: 'restore' })
+        })
+        .then(r => r.json())
+        .then(data => {
+            alert(data.message);
+            if (data.success) {
+                loadArchivedCustomers();
+                loadCustomers();
+            }
+        });
+    }
+}
+
+function permanentlyDeleteCustomer(customerId) {
+    if (confirm('⚠️ Permanently delete this customer? This CANNOT be undone.')) {
+        fetch('./api/customer_api/archived_customer_action.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ id: customerId, action: 'delete_permanent' })
+        })
+        .then(r => r.json())
+        .then(data => {
+            alert(data.message);
+            if (data.success) loadArchivedCustomers();
+        });
     }
 }
 
@@ -547,7 +789,7 @@ function loadArchivedProducts() {
 
 function restoreProduct(productId) {
     if (confirm('Restore this product to the active list?')) {
-        fetch('./api/product_api/archive_product_action.php', {
+        fetch('./api/product_api/archived_product_action.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ id: productId, action: 'restore' })
@@ -565,7 +807,7 @@ function restoreProduct(productId) {
 
 function permanentlyDeleteProduct(productId) {
     if (confirm('⚠️ Permanently delete this product? This CANNOT be undone and the image will be removed.')) {
-        fetch('./api/product_api/archive_product_action.php', {
+        fetch('./api/product_api/archived_product_action.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ id: productId, action: 'delete_permanent' })
@@ -621,7 +863,7 @@ function loadArchivedEmployees() {
 
 function restoreEmployee(employeeId) {
     if (confirm('Restore this employee to the active list?')) {
-        fetch('./api/employee_api/archive_employee_action.php', {
+        fetch('./api/employee_api/archived_employee_action.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ id: employeeId, action: 'restore' })
@@ -639,7 +881,7 @@ function restoreEmployee(employeeId) {
 
 function permanentlyDeleteEmployee(employeeId) {
     if (confirm('⚠️ Permanently delete this employee? This CANNOT be undone.')) {
-        fetch('./api/employee_api/archive_employee_action.php', {
+        fetch('./api/employee_api/archived_employee_action.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ id: employeeId, action: 'delete_permanent' })
