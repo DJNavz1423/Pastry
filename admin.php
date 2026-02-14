@@ -427,20 +427,39 @@ $total_revenue = $conn->query("SELECT SUM(total_amount) as total FROM orders WHE
                     <h2>Admin Profile</h2>
                 </div>
                 <div class="data-table-container">
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <label>Username</label>
-                            <input type="text" value="<?php echo htmlspecialchars($admin['username']); ?>" readonly>
+                    <form id="profileForm">
+                        <div class="modal-body">
+                            <input type="hidden" id="profile_admin_id" name="profile_admin_id" value="<?php echo $admin['id']; ?>">
+                            
+                            <div class="form-group">
+                                <label for="profile_username">Username *</label>
+                                <input type="text" id="profile_username" name="profile_username" value="<?php echo htmlspecialchars($admin['username']); ?>" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="profile_fullname">Full Name *</label>
+                                <input type="text" id="profile_fullname" name="profile_fullname" value="<?php echo htmlspecialchars($admin['full_name']); ?>" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="profile_email">Email *</label>
+                                <input type="email" id="profile_email" name="profile_email" value="<?php echo htmlspecialchars($admin['email']); ?>" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Password</label>
+                                <button type="button" class="btn btn-secondary" onclick="openChangePasswordModal()">
+                                    <i class="fas fa-key"></i> Change Password
+                                </button>
+                            </div>
+
+                            <div class="form-group" style="margin-top: 20px;">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-save"></i> Save Profile Changes
+                                </button>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label>Full Name</label>
-                            <input type="text" value="<?php echo htmlspecialchars($admin['full_name']); ?>" readonly>
-                        </div>
-                        <div class="form-group">
-                            <label>Email</label>
-                            <input type="email" value="<?php echo htmlspecialchars($admin['email']); ?>" readonly>
-                        </div>
-                    </div>
+                    </form>
                 </div>
             </section>
 
@@ -650,6 +669,41 @@ $total_revenue = $conn->query("SELECT SUM(total_amount) as total FROM orders WHE
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" onclick="closeCustomerModal()">Cancel</button>
                     <button type="submit" class="btn btn-primary">Update Customer</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Change Password Modal -->
+    <div id="changePasswordModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Change Password</h2>
+                <button class="close-modal" onclick="closeChangePasswordModal()">&times;</button>
+            </div>
+            <form id="changePasswordForm" method="post">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="current_password">Current Password *</label>
+                        <input type="password" id="current_password" name="current_password" required placeholder="Enter your current password">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="new_password">New Password *</label>
+                        <input type="password" id="new_password" name="new_password" required placeholder="Enter new password" minlength="6">
+                        <small style="color: var(--gray-light); display: block; margin-top: 5px;">
+                            Password must be at least 6 characters long
+                        </small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="confirm_new_password">Confirm New Password *</label>
+                        <input type="password" id="confirm_new_password" name="confirm_new_password" required placeholder="Re-enter new password">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="closeChangePasswordModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Change Password</button>
                 </div>
             </form>
         </div>

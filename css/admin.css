@@ -665,3 +665,60 @@ tr.archived-row {
   opacity: 0.7;
   background: #fff8f0;
 }
+
+/* ============================================================
+   PROFILE SECTION
+   ============================================================ */
+
+#profile .data-table-container {
+  max-width: 600px;
+  margin: 0;
+}
+
+#profile .form-group input[type="text"],
+#profile .form-group input[type="email"] {
+  background: white;
+  border: 1px solid #e0e0e0;
+}
+
+#profile .form-group input[type="text"]:focus,
+#profile .form-group input[type="email"]:focus {
+  border-color: var(--red);
+  background: white;
+}
+
+#profile .btn-secondary {
+  width: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Password strength indicator */
+.password-strength {
+  margin-top: 8px;
+  height: 4px;
+  background: #e0e0e0;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.password-strength-bar {
+  height: 100%;
+  transition: width 0.3s, background 0.3s;
+}
+
+.password-strength-bar.weak {
+  width: 33%;
+  background: #f44336;
+}
+
+.password-strength-bar.medium {
+  width: 66%;
+  background: #ff9800;
+}
+
+.password-strength-bar.strong {
+  width: 100%;
+  background: #4caf50;
+}

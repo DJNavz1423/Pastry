@@ -538,6 +538,99 @@ document.getElementById('customerForm').addEventListener('submit', function(e) {
     });
 });
 
+// ============================================================
+// PROFILE UPDATE
+// ============================================================
+
+// Profile Form Submission
+document.getElementById('profileForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const formData = new FormData(this);
+    
+    fetch('./api/admin_api/update_profile.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert(data.message);
+            // Reload page to reflect changes in sidebar if needed
+            location.reload();
+        } else {
+            alert('Error: ' + data.message);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('An error occurred. Please try again.');
+    });
+});
+
+// ============================================================
+// CHANGE PASSWORD
+// ============================================================
+
+function openChangePasswordModal() {
+    const modal = document.getElementById('changePasswordModal');
+    document.getElementById('changePasswordForm').reset();
+    modal.classList.add('active');
+}
+
+function closeChangePasswordModal() {
+    document.getElementById('changePasswordModal').classList.remove('active');
+}
+
+// Change Password Form Submission
+document.getElementById('changePasswordForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const currentPassword = document.getElementById('current_password').value;
+    const newPassword = document.getElementById('new_password').value;
+    const confirmNewPassword = document.getElementById('confirm_new_password').value;
+    
+    // Client-side validation
+    if (newPassword.length < 6) {
+        alert('New password must be at least 6 characters long.');
+        return;
+    }
+    
+    if (newPassword !== confirmNewPassword) {
+        alert('New passwords do not match.');
+        return;
+    }
+    
+    const data = {
+        current_password: currentPassword,
+        new_password: newPassword,
+        confirm_new_password: confirmNewPassword
+    };
+    
+    fetch('./api/admin_api/change_password.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert(data.message);
+            closeChangePasswordModal();
+            // Clear the form
+            document.getElementById('changePasswordForm').reset();
+        } else {
+            alert('Error: ' + data.message);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('An error occurred. Please try again.');
+    });
+});
+
 function searchCustomers() {
     const input = document.getElementById('customerSearch');
     const filter = input.value.toUpperCase();
@@ -568,6 +661,7 @@ window.onclick = function(event) {
     const employeeModal = document.getElementById('employeeModal');
     const categoryModal = document.getElementById('categoryModal');
     const customerModal = document.getElementById('customerModal');
+    const changePasswordModal = document.getElementById('changePasswordModal');
     
     if (event.target == productModal) {
         closeProductModal();
@@ -580,6 +674,9 @@ window.onclick = function(event) {
     }
     if (event.target == customerModal) {
         closeCustomerModal();
+    }
+    if (event.target == changePasswordModal) {
+        closeChangePasswordModal();
     }
 }
 
