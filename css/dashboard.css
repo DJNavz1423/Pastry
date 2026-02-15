@@ -256,7 +256,7 @@ section{
 }
 
 .hero-content-col-1 {
-  padding: 10px 20px 10px 25px;
+  padding: 0px 20px 10px 25px;
   position: relative;
   z-index: 2;
   flex: 0 0 65%;
@@ -490,11 +490,15 @@ figcaption data{
 .cart-product-container{
   display: flex;
   flex-direction: column;
-  padding: 24px 12px;
+  padding: 0px 12px;
   border-radius: 25px;
   background: var(--white);
   gap: 24px;
 }
 .cart-subsection .cart-container{
   border-radius: 0px;
+}
+
+.cart-product-container button{
+  width: 100%;
 }

@@ -145,7 +145,16 @@ function loadDashboardCategories() {
             const container = document.getElementById('dashboardCategories');
             container.innerHTML = '';
             
-            categories.slice(0, 4).forEach(cat => {
+            // Only show these 4 specific categories
+            const displayCategories = ['Cakes', 'Breads', 'Pastries', 'Cookies'];
+            
+            // Filter to only include the categories we want
+            const filteredCategories = categories.filter(cat => 
+                displayCategories.includes(cat.name)
+            );
+            
+            // Display only the first 4 (in case there are duplicates or extras)
+            filteredCategories.slice(0, 4).forEach(cat => {
                 const categoryEl = `
                     <div class="category" onclick="switchToCategory('${cat.name}')">
                         <figure>
@@ -167,7 +176,7 @@ function switchToCategory(categoryName) {
 }
 
 function loadBestSellingProducts() {
-    fetch('./api/user_api/get_products.php?limit=6&sort=bestselling')
+    fetch('./api/user_api/get_products.php?limit=4&sort=bestselling')
         .then(response => response.json())
         .then(products => {
             const container = document.getElementById('bestSellingProducts');
@@ -207,7 +216,7 @@ function loadBestSellingProducts() {
 }
 
 function loadDashboardCart() {
-    fetch('./api/user_api/get_cart.php?limit=5')
+    fetch('./api/user_api/get_cart.php?limit=7')
         .then(response => response.json())
         .then(data => {
             const container = document.getElementById('dashboardCart');

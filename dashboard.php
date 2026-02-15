@@ -31,8 +31,15 @@ if($result->num_rows > 0){
   exit;
 }
 
+// Get cart count
+$cart_count_query = "SELECT COUNT(*) as count FROM cart WHERE user_id = '{$user['id']}'";
+$cart_count = $conn->query($cart_count_query)->fetch_assoc()['count'] ?? 0;
+
+// Get favorites count
+$fav_count_query = "SELECT COUNT(*) as count FROM favorites WHERE user_id = '{$user['id']}'";
+$fav_count = $conn->query($fav_count_query)->fetch_assoc()['count'] ?? 0;
+
 $stmt->close();
-$conn->close();
 ?>
 
 <!DOCTYPE html>
@@ -69,6 +76,9 @@ $conn->close();
   <!-- CSS Stylesheet -->
   <link rel="stylesheet" href="./css/style.css?v=<?php echo time(); ?>">
   <link rel="stylesheet" href="./css/dashboard.css?v=<?php echo time(); ?>">
+  <link rel="stylesheet" href="./css/user-dashboard.css?v=<?php echo time(); ?>">
+  <link rel="stylesheet" href="./css/admin-dashboard.css?v=<?php echo time(); ?>">
+  
   <title>Julie's Bakery | User Dashboard</title>
 </head>
 
@@ -80,26 +90,15 @@ $conn->close();
       <ul>
         <h2><span>Main Menu</span><div class="menu-divider"></div></h2>
 
-        <li><a href="" class="active"><span class="material-symbols-outlined">
-dashboard
-</span>Dashboard</a></li>
-        <li><a href=""><span class="material-symbols-outlined">
-shopping_basket
-</span>Shop</a></li>
-        <li><a href=""><span class="material-symbols-outlined">
-favorite
-</span>Favorites</a></li>
+        <li><a href="#" class="nav-link active" data-section="dashboard"><span class="material-symbols-outlined">dashboard</span>Dashboard</a></li>
+        <li><a href="#" class="nav-link" data-section="shop"><span class="material-symbols-outlined">shopping_basket</span>Shop</a></li>
+        <li><a href="#" class="nav-link" data-section="favorites"><span class="material-symbols-outlined">favorite</span>Favorites <span class="badge"><?php echo $fav_count; ?></span></a></li>
+        <li><a href="#" class="nav-link" data-section="cart"><span class="material-symbols-outlined">shopping_bag</span>Your Cart <span class="badge"><?php echo $cart_count; ?></span></a></li>
 
         <h2><span>Account</span><div class="menu-divider"></div></h2>
-        <li><a href=""><span class="material-symbols-outlined">
-account_circle
-</span>Profile</a></li>
-        <li><a href=""><span class="material-symbols-outlined">
-settings
-</span>Settings</a></li>
-        <li><form action="./formHandlers/logout_handler.php" method="post"><button id="logout_button"><a href="./formHandlers/logout_handler.php"><span class="material-symbols-outlined">
-logout
-</span>Logout</a></button></form></li>
+        <li><a href="#" class="nav-link" data-section="profile"><span class="material-symbols-outlined">account_circle</span>Profile</a></li>
+        <li><a href="#" class="nav-link" data-section="settings"><span class="material-symbols-outlined">settings</span>Settings</a></li>
+        <li><form action="./formHandlers/logout_handler.php" method="post"><button id="logout_button"><a href="./formHandlers/logout_handler.php"><span class="material-symbols-outlined">logout</span>Logout</a></button></form></li>
       </ul>
 
       <div class="user-account">
@@ -115,234 +114,296 @@ logout
   </aside>
 
   <div class="grid-column-2">
-  <header>
-    <form>
-      <div class="searchbar-wrapper">
-      <i class='bx  bx-search'></i> 
-      <input type="search" id="search-bar" placeholder="Search">
-      </div>
-    </form>
+  <main>
+    <!-- Dashboard Section -->
+    <section id="dashboard" class="active">
+      <div class="dashboard-hero-section">
+        <div class="dashboard-hero-content">
+          <div class="hero-content-col-1">
+            <p>Deal of the weekend</p>
+            <h1>Hello, <?php echo htmlspecialchars($firstName); ?>!</h1>
+            <p>Get FREE delivery on every weekend</p>
+            <a href="#" onclick="switchSection('shop')"><button type="button" class="cta-button">Check Menu</button></a>
+          </div>
 
-    <nav>
-      <ul>
-        <li><a href=""><span class="material-symbols-outlined">
-notifications
-</span></a></li>
-        <li><a href=""><span class="material-symbols-outlined">
-chat
-</span></a></li>
-<li><a href=""><span class="material-symbols-outlined">
-shopping_cart
-</span></a></li>
-        <li class="header-user-info">
-           <div class="user-account">
-        <div class="user-profile">
-          <img src="./images/blank-pfp1.jpg" alt="Profile Image">
-          <div class="user-details">
-            <h3><?php echo htmlspecialchars($firstName); ?></h3>
-            <h4><?php echo htmlspecialchars($user['email']); ?></h4>
+          <div class="hero-content-col-2">
+            <figure>
+              <img src="./images/blueberry-cheesecake.jpg" alt="blueberry-cheesecake">
+            </figure>
           </div>
         </div>
       </div>
-        </li>
-      </ul>
-    </nav>
-  </header>
 
-  <main>
-    <section class="dashboard-hero-section">
-      <div class="dashboard-hero-content">
-        <div class="hero-content-col-1">
-        <p>Deal of the weekend</p>
-        <h1>Hello, <?php echo htmlspecialchars($firstName); ?>!</h1>
-        <p>Get FREE delivery on every weekend</p>
+      <div class="dashboard-product-section sub-section">
+        <div class="product-subsection">
+          <!-- Categories -->
+          <div class="dashboard-products-container">
+            <div class="heading-nav">
+              <h2>Categories</h2>
+              <a href="#" onclick="switchSection('shop')">View All</a>
+            </div>
 
-        <a href="#"><button type="button" class="cta-button">Check Menu</button></a>
+            <div class="category-container" id="dashboardCategories">
+              <!-- Categories loaded via AJAX -->
+            </div>
+          </div>
+
+          <!-- Best Selling -->
+          <div class="dashboard-products-container">
+            <div class="heading-nav">
+              <h2>Best Selling Products</h2>
+              <a href="#" onclick="switchSection('shop')">View All</a>
+            </div>
+
+            <div class="trending-container" id="bestSellingProducts">
+              <!-- Products loaded via AJAX -->
+            </div>
+          </div>
         </div>
 
-        <div class="hero-content-col-2">
-          <figure>
-            <img src="./images/blueberry-cheesecake.jpg" alt="blueberry-cheesecake">
-          </figure>
+        <!-- Cart Preview -->
+        <div class="cart-subsection">
+          <div class="heading-nav">
+            <h2>My Cart</h2>
+            <a href="#" onclick="switchSection('cart')">View All</a>
+          </div>
+
+          <div class="cart-product-container" id="dashboardCart">
+            <!-- Cart items loaded via AJAX -->
+          </div>
         </div>
       </div>
     </section>
 
-    <section class="dashboard-product-section">
-      <div class="product-subsection">
-        <!--category-->
-        <div class="dashboard-products-container">
-          <div class="heading-nav">
-          <h2>Category</h2>
-          <a href="">View All</a>
-          </div>
-
-          <div class="category-container">
-            <div class="category">
-              <figure>
-                <img src="./images/cake3.jpg" alt="category img">
-                <figcaption>Cake</figcaption>
-              </figure>
-            </div>
-
-            <div class="category">
-              <figure>
-                <img src="./images/pastry1.jpg" alt="category img">
-                <figcaption>Pastry</figcaption>
-              </figure>
-            </div>
-
-            <div class="category">
-              <figure>
-                <img src="./images/cookie.jpg" alt="category img">
-                <figcaption>Cookie</figcaption>
-              </figure>
-            </div>
-
-            <div class="category">
-              <figure>
-                <img src="./images/bread.jpg" alt="category img">
-                <figcaption>Bread</figcaption>
-              </figure>
-            </div>
-          </div>
-        </div>
-
-        <!--trending-->
-        <div class="dashboard-products-container">
-          <h2>Trending Products</h2>
-
-          <div class="trending-container">
-            <div class="trending wide-container">
-              <figure>
-                <span class="img-container">
-                <img src="./images/eggpie.png" alt="trending-product">
-                </span>
-                <figcaption>
-                  <h3>Egg Pie</h3>
-                  <data><span class="php-symbol">&#8369;</span>100.00</data>
-                  <div class="buttons-wrapper">
-                  <button type="button" class="cta-button add-cart-btn"><span class="material-symbols-outlined">
-add_shopping_cart
-</span> Add to Cart</button>
-<span class="material-symbols-outlined heart_plus">
-heart_plus
-</span>
-</div>
-                </figcaption>
-              </figure>
-            </div>
-
-            <div class="trending wide-container">
-              <figure>
-                <span class="img-container">
-                <img src="./images/eggpie.png" alt="trending-product">
-                </span>
-                <figcaption>
-                  <h3>Egg Pie</h3>
-                  <data><span class="php-symbol">&#8369;</span>100.00</data>
-                  <div class="buttons-wrapper">
-                  <button type="button" class="cta-button add-cart-btn"><span class="material-symbols-outlined">
-add_shopping_cart
-</span> Add to Cart</button>
-<span class="material-symbols-outlined heart_plus">
-heart_plus
-</span>
-</div>
-                </figcaption>
-              </figure>
-            </div>
-
-            <div class="trending wide-container">
-              <figure>
-                <span class="img-container">
-                <img src="./images/eggpie.png" alt="trending-product">
-                </span>
-                <figcaption>
-                  <h3>Egg Pie</h3>
-                  <data><span class="php-symbol">&#8369;</span>100.00</data>
-                  <div class="buttons-wrapper">
-                  <button type="button" class="cta-button add-cart-btn"><span class="material-symbols-outlined">
-add_shopping_cart
-</span> Add to Cart</button>
-<span class="material-symbols-outlined heart_plus">
-heart_plus
-</span>
-</div>
-                </figcaption>
-              </figure>
-            </div>
-
-            <div class="trending wide-container">
-              <figure>
-                <span class="img-container">
-                <img src="./images/eggpie.png" alt="trending-product">
-                </span>
-                <figcaption>
-                  <h3>Egg Pie</h3>
-                  <data><span class="php-symbol">&#8369;</span>100.00</data>
-                  <div class="buttons-wrapper">
-                  <button type="button" class="cta-button add-cart-btn"><span class="material-symbols-outlined">
-add_shopping_cart
-</span> Add to Cart</button>
-<span class="material-symbols-outlined heart_plus">
-heart_plus
-</span>
-</div>
-                </figcaption>
-              </figure>
-            </div>
-          </div>
-        </div>
+    <!-- Shop Section -->
+    <section id="shop" class="sub-section">
+      <div class="section-header">
+        <h2>Shop</h2>
       </div>
 
-      <div class="cart-subsection">
-        <div class="heading-nav">
-          <h2>My Cart</h2>
-          <a href="">View All</a>
-          </div>
+      <div class="category-tabs">
+        <button class="category-tab active" data-category="all" onclick="filterProducts('all')">
+          <i class="fas fa-th"></i> All
+        </button>
+        <!-- Category tabs loaded via AJAX -->
+      </div>
 
-          <div class="cart-product-container">
-        <div class="cart-container wide-container">
-          <figure>
-            <span class="img-container">
-            <img src="./images/eggpie.png" alt="cart-product">
-            </span>  
-            <figcaption>
-              <h3>Name</h3>
-              <data><span class="php-symbol">&#8369;</span>100.00</data>
-            </figcaption>
-          </figure>
+      <div class="products-grid" id="shopProducts">
+        <!-- Products loaded via AJAX -->
+      </div>
+    </section>
+
+    <!-- Favorites Section -->
+    <section id="favorites" class="sub-section">
+      <div class="section-header">
+        <h2>Your Favorites</h2>
+      </div>
+
+      <div class="category-tabs">
+        <button class="category-tab active" data-category="all" onclick="filterFavorites('all')">
+          <i class="fas fa-heart"></i> All
+        </button>
+        <!-- Category tabs loaded via AJAX -->
+      </div>
+
+      <div class="products-grid" id="favoriteProducts">
+        <!-- Favorites loaded via AJAX -->
+      </div>
+    </section>
+
+    <!-- Cart Section -->
+    <section id="cart" class="sub-section">
+      <div class="section-header">
+        <h2>Your Shopping Cart</h2>
+      </div>
+
+      <div class="cart-full-container">
+        <div class="cart-items-section" id="cartItems">
+          <!-- Cart items loaded via AJAX -->
         </div>
 
-        <div class="cart-container wide-container">
-          <figure>
-            <span class="img-container">
-            <img src="./images/eggpie.png" alt="cart-product">
-            </span> 
-            <figcaption>
-              <h3>Name</h3>
-              <data><span class="php-symbol">&#8369;</span>100.00</data>
-            </figcaption>
-          </figure>
-        </div>
-
-        <div class="cart-container wide-container">
-          <figure>
-            <span class="img-container">
-            <img src="./images/eggpie.png" alt="cart-product">
-            </span>  
-            <figcaption>
-              <h3>Name</h3>
-              <data><span class="php-symbol">&#8369;</span>100.00</data>
-            </figcaption>
-          </figure>
+        <div class="cart-summary">
+          <h3>Order Summary</h3>
+          <div class="summary-row">
+            <span>Subtotal:</span>
+            <span id="cartSubtotal">₱0.00</span>
           </div>
+          <div class="summary-row">
+            <span>Delivery Fee:</span>
+            <span id="deliveryFee">₱50.00</span>
+          </div>
+          <div class="summary-row total">
+            <span>Total:</span>
+            <span id="cartTotal">₱0.00</span>
+          </div>
+          <button class="btn btn-primary btn-block" onclick="proceedToCheckout()">
+            <i class="fas fa-shopping-cart"></i> Proceed to Checkout
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Profile Section -->
+    <section id="profile" class="sub-section">
+      <div class="section-header">
+        <h2>Your Profile</h2>
+      </div>
+      <div class="data-table-container">
+        <form id="userProfileForm">
+          <div class="modal-body">
+            <input type="hidden" id="user_id" value="<?php echo $user['id']; ?>">
+            
+            <div class="form-group">
+              <label for="user_fullname">Full Name *</label>
+              <input type="text" id="user_fullname" name="user_fullname" value="<?php echo htmlspecialchars($user['full_name']); ?>" required>
+            </div>
+
+            <div class="form-group">
+              <label for="user_email">Email *</label>
+              <input type="email" id="user_email" name="user_email" value="<?php echo htmlspecialchars($user['email']); ?>" required>
+            </div>
+
+            <div class="form-group">
+              <label for="user_phone">Phone *</label>
+              <input type="text" id="user_phone" name="user_phone" value="<?php echo htmlspecialchars($user['phone']); ?>" required>
+            </div>
+
+            <div class="form-group">
+              <label for="user_address">Delivery Address</label>
+              <textarea id="user_address" name="user_address" placeholder="Enter your complete address for delivery"><?php echo htmlspecialchars($user['address'] ?? ''); ?></textarea>
+            </div>
+
+            <div class="form-group">
+              <label>Password</label>
+              <button type="button" class="btn btn-secondary" onclick="openUserPasswordModal()">
+                <i class="fas fa-key"></i> Change Password
+              </button>
+            </div>
+
+            <div class="form-group" style="margin-top: 20px;">
+              <button type="submit" class="btn btn-primary">
+                <i class="fas fa-save"></i> Save Profile Changes
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- Settings Section -->
+    <section id="settings" class="sub-section">
+      <div class="section-header">
+        <h2>Settings</h2>
+      </div>
+      <div class="data-table-container">
+        <div class="modal-body">
+          <h3>Application Settings</h3>
+          <p>Settings management coming soon...</p>
         </div>
       </div>
     </section>
   </main>
 </div>
 
+  <!-- Checkout Modal -->
+  <div id="checkoutModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Checkout</h2>
+        <button class="close-modal" onclick="closeCheckoutModal()">&times;</button>
+      </div>
+      <form id="checkoutForm">
+        <div class="modal-body">
+          <h3>Delivery Information</h3>
+          <div class="form-group">
+            <label for="checkout_address">Delivery Address *</label>
+            <textarea id="checkout_address" name="checkout_address" required placeholder="Enter your complete delivery address"><?php echo htmlspecialchars($user['address'] ?? ''); ?></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="checkout_phone">Contact Number *</label>
+            <input type="text" id="checkout_phone" name="checkout_phone" value="<?php echo htmlspecialchars($user['phone']); ?>" required>
+          </div>
+
+          <h3 style="margin-top: 30px;">Payment Method</h3>
+          <div class="payment-methods">
+            <label class="payment-option">
+              <input type="radio" name="payment_method" value="cod" checked>
+              <span class="payment-label">
+                <i class="fas fa-money-bill-wave"></i>
+                Cash on Delivery
+              </span>
+            </label>
+            <label class="payment-option">
+              <input type="radio" name="payment_method" value="gcash">
+              <span class="payment-label">
+                <i class="fas fa-mobile-alt"></i>
+                GCash
+              </span>
+            </label>
+          </div>
+
+          <div class="checkout-summary">
+            <h3>Order Summary</h3>
+            <div class="summary-row">
+              <span>Subtotal:</span>
+              <span id="checkoutSubtotal">₱0.00</span>
+            </div>
+            <div class="summary-row">
+              <span>Delivery Fee:</span>
+              <span>₱50.00</span>
+            </div>
+            <div class="summary-row total">
+              <span>Total Amount:</span>
+              <span id="checkoutTotal">₱0.00</span>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="closeCheckoutModal()">Cancel</button>
+          <button type="submit" class="btn btn-primary">Place Order</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Change Password Modal -->
+  <div id="userPasswordModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Change Password</h2>
+        <button class="close-modal" onclick="closeUserPasswordModal()">&times;</button>
+      </div>
+      <form id="userPasswordForm">
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="user_current_password">Current Password *</label>
+            <input type="password" id="user_current_password" name="current_password" required>
+          </div>
+
+          <div class="form-group">
+            <label for="user_new_password">New Password *</label>
+            <input type="password" id="user_new_password" name="new_password" required minlength="6">
+            <small style="color: var(--gray-light);">Minimum 6 characters</small>
+          </div>
+
+          <div class="form-group">
+            <label for="user_confirm_password">Confirm New Password *</label>
+            <input type="password" id="user_confirm_password" name="confirm_password" required>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="closeUserPasswordModal()">Cancel</button>
+          <button type="submit" class="btn btn-primary">Change Password</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const userId = '<?php echo $user['id']; ?>';
+  </script>
+  <script src="./js/user-dashboard.js?v=<?php echo time(); ?>"></script>
 </body>
 </html>
+<?php $conn->close(); ?>

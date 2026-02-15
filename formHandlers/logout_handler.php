@@ -1,8 +1,8 @@
 <?php
 session_start();
 
-$is_admin = isset($_SESSION['admin_id']);
 $is_user = isset($_SESSION['user_id']) || isset($_SESSION['email']);
+$is_admin = isset($_SESSION['admin_id']);
 
 session_destroy();
 

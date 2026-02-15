@@ -5,6 +5,7 @@ CREATE TABLE users (
   email VARCHAR(100) UNIQUE NOT NULL,
   phone VARCHAR(50) UNIQUE NOT NULL,
   password VARCHAR(255) NOT NULL,
+  address TEXT NULL,
   is_archived TINYINT(1) NOT NULL DEFAULT 0,
   archived_at TIMESTAMP NULL DEFAULT NULL,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -81,6 +82,29 @@ CREATE TABLE categories (
   name VARCHAR(50) UNIQUE NOT NULL,
   description TEXT,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Cart Table
+CREATE TABLE cart (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  user_id VARCHAR(10) NOT NULL,
+  product_id VARCHAR(10) NOT NULL,
+  quantity INT NOT NULL DEFAULT 1,
+  added_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+  FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE,
+  UNIQUE KEY unique_user_product (user_id, product_id)
+);
+
+-- Favorites Table
+CREATE TABLE favorites (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  user_id VARCHAR(10) NOT NULL,
+  product_id VARCHAR(10) NOT NULL,
+  added_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+  FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE,
+  UNIQUE KEY unique_user_product (user_id, product_id)
 );
 
 -- Insert some default categories
