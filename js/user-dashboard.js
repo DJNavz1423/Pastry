@@ -246,9 +246,9 @@ function loadDashboardCart() {
                                 <data><span class="php-symbol">&#8369;</span>${parseFloat(item.price * item.quantity).toFixed(2)}</data>
                                 <div class="cart-mini-controls">
                                     <div class="quantity-control-mini">
-                                        <button onclick="updateCartQuantity('${item.product_id}', ${item.quantity - 1})">-</button>
+                                        <button onclick="updateCartQuantity('${item.product_id}', ${parseInt(item.quantity) - 1})">-</button>
                                         <span>${item.quantity}</span>
-                                        <button onclick="updateCartQuantity('${item.product_id}', ${item.quantity + 1})">+</button>
+                                        <button onclick="updateCartQuantity('${item.product_id}', ${parseInt(item.quantity) + 1})">+</button>
                                     </div>
                                     <button class="btn-remove-mini" onclick="removeFromCart('${item.product_id}')" title="Remove">
                                         <i class="fas fa-times"></i>
@@ -565,9 +565,9 @@ function loadFullCart() {
                             <div class="cart-item-price">₱${parseFloat(item.price).toFixed(2)}</div>
                             <div class="cart-item-actions">
                                 <div class="quantity-control">
-                                    <button onclick="updateCartQuantity('${item.product_id}', ${item.quantity - 1})">-</button>
+                                    <button onclick="updateCartQuantity('${item.product_id}', ${parseInt(item.quantity) - 1})">-</button>
                                     <span>${item.quantity}</span>
-                                    <button onclick="updateCartQuantity('${item.product_id}', ${item.quantity + 1})">+</button>
+                                    <button onclick="updateCartQuantity('${item.product_id}', ${parseInt(item.quantity) + 1})">+</button>
                                 </div>
                                 <button class="btn-remove" onclick="removeFromCart('${item.product_id}')">
                                     <i class="fas fa-trash"></i> Remove

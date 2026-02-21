@@ -467,6 +467,7 @@ header nav ul li .badge {
   display: flex;
   align-items: center;
   gap: 12px;
+  padding: 12px;
 }
 
 .cart-product-container .img-container {
@@ -486,6 +487,84 @@ header nav ul li .badge {
 
 .cart-product-container .cta-button {
   width: 100%;
+  margin-top: 16px;
+}
+
+/* Mini quantity controls for dashboard cart */
+.cart-mini-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 8px;
+  gap: 8px;
+}
+
+.quantity-control-mini {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--bgColor2);
+  padding: 4px 8px;
+  border-radius: 6px;
+}
+
+.quantity-control-mini button {
+  background: none;
+  border: none;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--red);
+  cursor: pointer;
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 3px;
+  transition: background 0.3s;
+}
+
+.quantity-control-mini button:hover {
+  background: var(--red);
+  color: white;
+}
+
+.quantity-control-mini span {
+  min-width: 20px;
+  text-align: center;
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.btn-remove-mini {
+  background: none;
+  border: none;
+  color: #f44336;
+  cursor: pointer;
+  width: 26px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.3s;
+}
+
+.btn-remove-mini:hover {
+  background: #ffebee;
+}
+
+.btn-remove-mini i {
+  font-size: 14px;
+}
+
+/* Heart icon colors for dashboard best selling */
+.trending-container .heart_plus {
+  color: var(--gray-light);
+}
+
+.trending-container .heart_plus.favorited {
+  color: var(--red);
 }
 
 /* Checkout Modal */
@@ -576,6 +655,7 @@ header nav ul li .badge {
 /* Profile Section */
 #profile .data-table-container {
   max-width: 600px;
+  margin: 0 auto;
 }
 
 #profile textarea {
@@ -803,6 +883,7 @@ header nav ul li .badge {
 }
 
 .section-header h2 {
+  font-size: 32px;
   margin: 0;
   color: var(--gray);
 }
@@ -810,6 +891,7 @@ header nav ul li .badge {
 /* Data Table Container (for profile) */
 .data-table-container {
   background: white;
+  padding: 30px;
   border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }

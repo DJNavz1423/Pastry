@@ -77,7 +77,7 @@ $stmt->close();
   <link rel="stylesheet" href="./css/style.css?v=<?php echo time(); ?>">
   <link rel="stylesheet" href="./css/dashboard.css?v=<?php echo time(); ?>">
   <link rel="stylesheet" href="./css/user-dashboard.css?v=<?php echo time(); ?>">
-  <link rel="stylesheet" href="./css/admin-dashboard.css?v=<?php echo time(); ?>">
+  <link rel="stylesheet" href="./css/admin.css?v=<?php echo time(); ?>">
   
   <title>Julie's Bakery | User Dashboard</title>
 </head>
