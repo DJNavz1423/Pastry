@@ -189,13 +189,14 @@ function loadBestSellingProducts() {
             
             products.forEach(product => {
                 const isFavorite = product.is_favorite ? 'heart_check' : 'heart_plus';
+                const favoritedClass = product.is_favorite ? 'favorited' : '';
                 const productEl = `
                     <div class="trending wide-container">
                         <figure style="position:relative;">
                             <span class="img-container">
                                 <img src="./uploads/products/${product.picture || 'no-image.png'}" alt="${product.name}">
                             </span>
-                            <span class="material-symbols-outlined heart_plus" onclick="toggleFavorite('${product.id}', this)">
+                            <span class="material-symbols-outlined heart_plus ${favoritedClass}" onclick="toggleFavorite('${product.id}', this)">
                                 ${isFavorite}
                             </span>
                             <figcaption>
@@ -243,6 +244,16 @@ function loadDashboardCart() {
                             <figcaption>
                                 <h3>${item.name}</h3>
                                 <data><span class="php-symbol">&#8369;</span>${parseFloat(item.price * item.quantity).toFixed(2)}</data>
+                                <div class="cart-mini-controls">
+                                    <div class="quantity-control-mini">
+                                        <button onclick="updateCartQuantity('${item.product_id}', ${item.quantity - 1})">-</button>
+                                        <span>${item.quantity}</span>
+                                        <button onclick="updateCartQuantity('${item.product_id}', ${item.quantity + 1})">+</button>
+                                    </div>
+                                    <button class="btn-remove-mini" onclick="removeFromCart('${item.product_id}')" title="Remove">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
                             </figcaption>
                         </figure>
                     </div>
@@ -302,7 +313,7 @@ function filterProducts(category) {
 function loadShopProducts(category = 'all') {
     const url = category === 'all' 
         ? './api/user_api/get_products.php'
-        : `./api/user/get_products.php?category=${category}`;
+        : `./api/user_api/get_products.php?category=${category}`;
     
     fetch(url)
         .then(response => response.json())
@@ -397,7 +408,7 @@ function filterFavorites(category) {
 function loadFavorites(category = 'all') {
     const url = category === 'all'
         ? './api/user_api/get_favorites.php'
-        : `./api/user/get_favorites.php?category=${category}`;
+        : `./api/user_api/get_favorites.php?category=${category}`;
     
     fetch(url)
         .then(response => response.json())
@@ -458,6 +469,7 @@ function toggleFavorite(productId, element) {
             if (data.action === 'added') {
                 if (element.tagName === 'SPAN') {
                     element.textContent = 'heart_check';
+                    element.classList.add('favorited'); // Add red color
                 } else {
                     element.classList.add('active');
                     element.querySelector('i').className = 'fas fa-heart';
@@ -465,6 +477,7 @@ function toggleFavorite(productId, element) {
             } else {
                 if (element.tagName === 'SPAN') {
                     element.textContent = 'heart_plus';
+                    element.classList.remove('favorited'); // Remove red color
                 } else {
                     element.classList.remove('active');
                     element.querySelector('i').className = 'far fa-heart';
