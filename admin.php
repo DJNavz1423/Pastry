@@ -713,6 +713,6 @@ $total_revenue = $conn->query("SELECT SUM(total_amount) as total FROM orders WHE
         // Pass PHP variable to JavaScript
         const isSuperAdmin = <?php echo $is_super_admin ? 'true' : 'false'; ?>;
     </script>
-    <script src="./js/admin-dashboard.js"></script>
+    <script src="./js/admin-dashboard.js?<?php echo time(); ?>"></script>
 </body>
 </html>

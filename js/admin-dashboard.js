@@ -373,10 +373,10 @@ function loadOrders() {
                         <td><span class="status-badge ${order.status}">${order.status}</span></td>
                         <td>${new Date(order.order_date).toLocaleDateString()}</td>
                         <td class="action-buttons">
-                            <button class="action-btn view" onclick="viewOrder(${order.id})" title="View Details">
+                            <button class="action-btn view" onclick="viewOrder('${order.id}')" title="View Details">
                                 <i class="fas fa-eye"></i>
                             </button>
-                            <button class="action-btn edit" onclick="updateOrderStatus(${order.id})" title="Update Status">
+                            <button class="action-btn edit" onclick="updateOrderStatus('${order.id}')" title="Update Status">
                                 <i class="fas fa-edit"></i>
                             </button>
                         </td>
